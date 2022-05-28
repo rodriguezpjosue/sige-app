@@ -28,6 +28,15 @@ class SIGEService extends FuseUtils.EventEmitter {
 
   handleAuthentication = () => {
     const accessToken = this.getAccessToken();
+    if (accessToken) {
+      this.setSession(null);
+    }
+    this.emit('onNoAccessToken');
+  };
+
+  /*
+  handleAuthentication = () => {
+    const accessToken = this.getAccessToken();
 
     if (!accessToken) {
       this.emit('onNoAccessToken');
@@ -42,6 +51,31 @@ class SIGEService extends FuseUtils.EventEmitter {
       this.setSession(null);
       this.emit('onAutoLogout', 'access_token expired');
     }
+  };
+  */
+
+  signInWithToken = () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(sigeServiceConfig.accessToken, {
+          data: {
+            access_token: this.getAccessToken(),
+          },
+        })
+        .then((response) => {
+          if (response.data.user) {
+            this.setSession(response.data.access_token);
+            resolve(response.data.user);
+          } else {
+            this.logout();
+            reject(new Error('Failed to login with token.'));
+          }
+        })
+        .catch((error) => {
+          this.logout();
+          reject(new Error('Failed to login with token.'));
+        });
+    });
   };
 
   signInWithEmailAndPassword = (user, pass) => {
@@ -58,6 +92,7 @@ class SIGEService extends FuseUtils.EventEmitter {
           },
         })
         .then((response) => {
+          response = response.data.result;
           if (response.data.user) {
             this.setSession(response.data.access_token);
             resolve(response.data.user);
@@ -67,6 +102,74 @@ class SIGEService extends FuseUtils.EventEmitter {
           }
         });
     });
+  };
+
+  signInWithUserAndPassword = (user, pass) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          sigeServiceConfig.signIn,
+          {
+            params: {
+              endpoint: 'login',
+              args: {
+                db: 'sige',
+                login: user,
+                password: pass,
+              },
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          response = response.data.result;
+          if (response.data.user) {
+            this.setSession(response.data.access_token, response.data.user.data);
+            resolve(response.data.user);
+            this.emit('onLogin', response.data.user);
+          } else {
+            reject(response.data.error);
+          }
+        });
+    });
+  };
+
+  setSession = (accessToken, userdata) => {
+    if (accessToken) {
+      localStorage.setItem('session_id', accessToken);
+      localStorage.setItem('red_id', userdata.red_liderada);
+      // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    } else {
+      localStorage.removeItem('session_id');
+      localStorage.removeItem('red_id');
+      // delete axios.defaults.headers.common.Authorization;
+    }
+  };
+
+  logout = () => {
+    this.setSession(null);
+    this.emit('onLogout', 'Logged out');
+  };
+
+  isAuthTokenValid = (accessToken) => {
+    if (!accessToken) {
+      return false;
+    }
+    /*
+    const decoded = jwtDecode(accessToken);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      console.warn('access token expired');
+      return false;
+    }
+    */
+    return true;
+  };
+
+  getAccessToken = () => {
+    return window.localStorage.getItem('session_id');
   };
 }
 

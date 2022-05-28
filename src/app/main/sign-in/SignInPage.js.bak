@@ -22,6 +22,7 @@ import sigeService from '../../auth/services/sigeService';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
+  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
   username: yup.string().required('You must enter an user'),
   password: yup
     .string()
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
+  email: '',
   username: '',
   password: '',
   remember: true,
@@ -45,13 +47,14 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
+    setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
     setValue('username', '42282407', { shouldDirty: true, shouldValidate: true });
-    setValue('password', '12345678', { shouldDirty: true, shouldValidate: true });
+    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
-  function onSubmit({ username, password }) {
+  function onSubmit({ email, password }) {
     sigeService
-      .signInWithUserAndPassword(username, password)
+      .signInWithUserAndPassword(email, password)
       .then((user) => {
         // No need to do anything, user data will be set at app/auth/AuthContext
       })
@@ -88,6 +91,25 @@ function SignInPage() {
             className="flex flex-col justify-center w-full mt-32"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Email"
+                  autoFocus
+                  type="email"
+                  error={!!errors.email}
+                  helperText={errors?.email?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              )}
+            />
+
             <Controller
               name="username"
               control={control}

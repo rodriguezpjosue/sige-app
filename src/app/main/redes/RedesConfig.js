@@ -4,14 +4,14 @@ import en from './i18n/en';
 import tr from './i18n/tr';
 import ar from './i18n/ar';
 import es from './i18n/es';
-import Example from './Example';
+import Redes from './Redes';
 
 i18next.addResourceBundle('en', 'examplePage', en);
 i18next.addResourceBundle('tr', 'examplePage', tr);
 i18next.addResourceBundle('ar', 'examplePage', ar);
 i18next.addResourceBundle('es', 'examplePage', es);
 
-const ExampleConfig = {
+const RedesConfig = {
   settings: {
     layout: {
       config: {},
@@ -19,13 +19,13 @@ const ExampleConfig = {
   },
   routes: [
     {
-      path: 'example',
-      element: <Example />,
+      path: 'redes',
+      element: <Redes />,
     },
   ],
 };
 
-export default ExampleConfig;
+export default RedesConfig;
 
 /**
  * Lazy load Example
