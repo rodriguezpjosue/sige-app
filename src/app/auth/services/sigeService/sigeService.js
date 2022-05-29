@@ -37,15 +37,16 @@ class SIGEService extends FuseUtils.EventEmitter {
   /*
   handleAuthentication = () => {
     const accessToken = this.getAccessToken();
+    const redLiderada = window.localStorage.getItem('red_liderada');
 
-    if (!accessToken) {
+    if (!accessToken || !redLiderada) {
       this.emit('onNoAccessToken');
 
       return;
     }
 
     if (this.isAuthTokenValid(accessToken)) {
-      this.setSession(accessToken);
+      // this.setSession(accessToken);
       this.emit('onAutoLogin', true);
     } else {
       this.setSession(null);
@@ -53,18 +54,28 @@ class SIGEService extends FuseUtils.EventEmitter {
     }
   };
   */
-
+ 
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
       axios
-        .get(sigeServiceConfig.accessToken, {
-          data: {
-            access_token: this.getAccessToken(),
+        .post(
+          sigeServiceConfig.accessToken,
+          {
+            params: {
+              endpoint: 'login_with_sid',
+              args: {
+                sid: this.getAccessToken(),
+              },
+            },
           },
-        })
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
+          response = response.data.result;
           if (response.data.user) {
-            this.setSession(response.data.access_token);
+            this.setSession(response.data.access_token, response.data.user.data);
             resolve(response.data.user);
           } else {
             this.logout();

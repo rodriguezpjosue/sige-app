@@ -9,8 +9,9 @@ import Error404Page from '../main/404/Error404Page';
 import ExampleConfig from '../main/example/ExampleConfig';
 import RedesConfig from '../main/redes/RedesConfig';
 import IntegrantesAppConfig from '../main/integrantes/IntegrantesAppConfig';
+import InformesAppConfig from '../main/informes/InformesAppConfig';
 
-const routeConfigs = [ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig, RedesConfig, IntegrantesAppConfig];
+const routeConfigs = [ExampleConfig, SignOutConfig, SignInConfig, SignUpConfig, RedesConfig, IntegrantesAppConfig, InformesAppConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
@@ -27,6 +28,11 @@ const routes = [
   {
     path: 'integrantes',
     element: <Navigate to="/integrantes" />,
+    auth: settingsConfig.defaultAuth,
+  },
+  {
+    path: 'informes',
+    element: <Navigate to="/informes" />,
     auth: settingsConfig.defaultAuth,
   },
   {

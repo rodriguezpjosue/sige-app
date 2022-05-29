@@ -34,6 +34,14 @@ const navigationConfig = [
     icon: 'heroicons-outline:user-group',
     url: 'integrantes',
   },
+  {
+    id: 'informes-redes',
+    title: 'Informes',
+    translate: 'INFORMES',
+    type: 'item',
+    icon: 'heroicons-outline:document-text',
+    url: 'informes',
+  },
 ];
 
 export default navigationConfig;
