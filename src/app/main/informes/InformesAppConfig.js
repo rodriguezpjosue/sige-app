@@ -1,10 +1,10 @@
 import { lazy } from 'react';
-import IntegranteView from './integrante/IntegranteView';
-import IntegranteForm from './integrante/IntegranteForm';
+import InformeView from './informe/InformeView';
+import InformeForm from './informe/InformeForm';
 
-const IntegrantesApp = lazy(() => import('./IntegrantesApp'));
+const InformesApp = lazy(() => import('./InformesApp'));
 
-const IntegrantesAppConfig = {
+const InformesAppConfig = {
   settings: {
     layout: {
       config: {},
@@ -12,20 +12,20 @@ const IntegrantesAppConfig = {
   },
   routes: [
     {
-      path: 'integrantes',
-      element: <IntegrantesApp />,
+      path: 'informes',
+      element: <InformesApp />,
       children: [
         {
           path: ':id',
-          element: <IntegranteView />,
+          element: <InformeView />,
         },
         {
           path: ':id/edit',
-          element: <IntegranteForm />,
+          element: <InformeForm />,
         },
       ],
     },
   ],
 };
 
-export default IntegrantesAppConfig;
+export default InformesAppConfig;

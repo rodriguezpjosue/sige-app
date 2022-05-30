@@ -6,13 +6,14 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { styled } from '@mui/material/styles';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import ContactsSidebarContent from './IntegrantesSidebarContent';
-import ContactsHeader from './IntegrantesHeader';
-import ContactsList from './IntegrantesList';
+import InformesSidebarContent from './InformesSidebarContent';
+import ContactsHeader from './InformesHeader';
+// import InformesList from './InformesList';
+import InformesTable from './InformesTable';
 import reducer from './store';
-import { getTags } from './store/tagsSlice';
-import { getCountries } from './store/countriesSlice';
-import { getContacts } from './store/integrantesSlice';
+import { getTiposreunion } from './store/tiposreunionSlice';
+import { getIntegrantes } from './store/integrantesSlice';
+import { getInformes } from './store/informesSlice';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -20,7 +21,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   },
 }));
 
-function ContactsApp(props) {
+function InformesApp(props) {
   const dispatch = useDispatch();
   const pageLayout = useRef(null);
   const routeParams = useParams();
@@ -28,9 +29,9 @@ function ContactsApp(props) {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   useDeepCompareEffect(() => {
-    dispatch(getContacts());
-    dispatch(getCountries());
-    dispatch(getTags());
+    dispatch(getInformes());
+    dispatch(getIntegrantes());
+    dispatch(getTiposreunion());
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,9 +41,9 @@ function ContactsApp(props) {
   return (
     <Root
       header={<ContactsHeader pageLayout={pageLayout} />}
-      content={<ContactsList />}
+      content={<InformesTable />}
       ref={pageLayout}
-      rightSidebarContent={<ContactsSidebarContent />}
+      rightSidebarContent={<InformesSidebarContent />}
       rightSidebarOpen={rightSidebarOpen}
       rightSidebarOnClose={() => setRightSidebarOpen(false)}
       rightSidebarWidth={640}
@@ -51,4 +52,4 @@ function ContactsApp(props) {
   );
 }
 
-export default withReducer('contactsApp', reducer)(ContactsApp);
+export default withReducer('informesApp', reducer)(InformesApp);

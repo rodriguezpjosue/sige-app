@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import { selectFilteredContacts, selectGroupedFilteredContacts } from './store/integrantesSlice';
-import ContactListItem from './IntegranteListItem';
+import { selectFilteredInformes, selectGroupedFilteredInformes } from './store/informesSlice';
+import ContactListItem from './InformeListItem';
 
-function ContactsList(props) {
-  const filteredData = useSelector(selectFilteredContacts);
-  const groupedFilteredContacts = useSelector(selectGroupedFilteredContacts);
+function InformesList(props) {
+  const filteredData = useSelector(selectFilteredInformes);
+  const groupedFilteredContacts = useSelector(selectGroupedFilteredInformes);
 
   if (!filteredData) {
     return null;
@@ -18,7 +18,7 @@ function ContactsList(props) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
         <Typography color="text.secondary" variant="h5">
-          There are no contacts!
+          No has reportado informes aún.
         </Typography>
       </div>
     );
@@ -39,7 +39,7 @@ function ContactsList(props) {
             <Divider />
             <List className="w-full m-0 p-0">
               {group.children.map((item) => (
-                <ContactListItem key={item.id} contact={item} />
+                <ContactListItem key={item.id} informe={item} />
               ))}
             </List>
           </div>
@@ -49,4 +49,4 @@ function ContactsList(props) {
   );
 }
 
-export default ContactsList;
+export default InformesList;

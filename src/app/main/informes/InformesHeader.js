@@ -7,15 +7,15 @@ import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { Box } from '@mui/system';
 import {
-  selectFilteredContacts,
+  selectFilteredInformes,
   selectSearchText,
-  setContactsSearchText,
-} from './store/integrantesSlice';
+  setInformesSearchText,
+} from './store/informesSlice';
 
-function ContactsHeader(props) {
+function InformesHeader(props) {
   const dispatch = useDispatch();
   const searchText = useSelector(selectSearchText);
-  const filteredData = useSelector(selectFilteredContacts);
+  const filteredData = useSelector(selectFilteredInformes);
 
   return (
     <div className="p-24 sm:p-32 w-full border-b-1">
@@ -27,7 +27,7 @@ function ContactsHeader(props) {
           delay={300}
           className="text-24 md:text-32 font-extrabold tracking-tight leading-none"
         >
-          Contacts
+          Informes de reunión RED
         </Typography>
         <Typography
           component={motion.span}
@@ -37,7 +37,7 @@ function ContactsHeader(props) {
           className="text-14 font-medium ml-2"
           color="text.secondary"
         >
-          {`${filteredData.length} contacts`}
+          {`${filteredData.length} informes`}
         </Typography>
       </div>
       <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center mt-16 -mx-8">
@@ -52,7 +52,7 @@ function ContactsHeader(props) {
           </FuseSvgIcon>
 
           <Input
-            placeholder="Search contacts"
+            placeholder="Search informes"
             className="flex flex-1 px-16"
             disableUnderline
             fullWidth
@@ -60,7 +60,7 @@ function ContactsHeader(props) {
             inputProps={{
               'aria-label': 'Search',
             }}
-            onChange={(ev) => dispatch(setContactsSearchText(ev))}
+            onChange={(ev) => dispatch(setInformesSearchText(ev))}
           />
         </Box>
         <Button
@@ -78,4 +78,4 @@ function ContactsHeader(props) {
   );
 }
 
-export default ContactsHeader;
+export default InformesHeader;

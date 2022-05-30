@@ -7,8 +7,8 @@ import Divider from '@mui/material/Divider';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import stringOperations from '../../shared-components/stringOperations';
 
-function ContactListItem(props) {
-  const { contact } = props;
+function InformeListItem(props) {
+  const { informe } = props;
   return (
     <>
       <ListItem
@@ -16,14 +16,14 @@ function ContactListItem(props) {
         sx={{ bgcolor: 'background.paper' }}
         button
         component={NavLinkAdapter}
-        to={`/integrantes/${contact.id}`}
+        to={`/informes/${informe.id}`}
       >
         <ListItemAvatar>
-          <Avatar alt={contact.name} src={`data:image/png;base64,${contact.image_small}`} />
+          <Avatar alt={informe.name} src={`data:image/png;base64,${informe.image_small}`} />
         </ListItemAvatar>
         <ListItemText
           classes={{ root: 'm-0', primary: 'font-medium leading-5 truncate' }}
-          primary={stringOperations.capitalizeWords(contact.name)}
+          primary={stringOperations.capitalizeWords(informe.name)}
           secondary={
             <>
               <Typography
@@ -32,10 +32,10 @@ function ContactListItem(props) {
                 variant="body2"
                 color="text.secondary"
               >
-                {contact.mobile ? contact.mobile : ``}
+                {informe.mobile ? informe.mobile : ``}
                 <br />
-                {contact.profesion_id.length > 0
-                  ? stringOperations.capitalizeWords(contact.profesion_id[0].name)
+                {informe.profesion_id.length > 0
+                  ? stringOperations.capitalizeWords(informe.profesion_id[0].name)
                   : ``}
               </Typography>
             </>
@@ -47,4 +47,4 @@ function ContactListItem(props) {
   );
 }
 
-export default ContactListItem;
+export default InformeListItem;

@@ -1,14 +1,14 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import tags from './tagsSlice';
-import contacts from './integrantesSlice';
-import countries from './countriesSlice';
-import contact from './integranteSlice';
+import tiposreunion from './tiposreunionSlice';
+import informes from './informesSlice';
+import integrantes from './integrantesSlice';
+import informe from './informeSlice';
 
 const reducer = combineReducers({
-  tags,
-  countries,
-  contacts,
-  contact,
+  tiposreunion,
+  integrantes,
+  informes,
+  informe,
 });
 
 export default reducer;

@@ -18,15 +18,15 @@ import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import {
-  addContact,
-  getContact,
-  newContact,
-  removeContact,
-  selectContact,
-  updateContact,
-} from '../store/integranteSlice';
-import { selectCountries } from '../store/countriesSlice';
-import { selectTags } from '../store/tagsSlice';
+  addInforme,
+  getInforme,
+  newInforme,
+  removeInforme,
+  selectInforme,
+  updateInforme,
+} from '../store/informeSlice';
+import { selectIntegrantes } from '../store/integrantesSlice';
+import { selectTiposreunion } from '../store/tiposreunionSlice';
 import IntegranteEmailSelector from './email-selector/IntegranteEmailSelector';
 import PhoneNumberSelector from './phone-number-selector/PhoneNumberSelector';
 
@@ -37,10 +37,10 @@ const schema = yup.object().shape({
   name: yup.string().required('You must enter a name'),
 });
 
-const ContactForm = (props) => {
-  const contact = useSelector(selectContact);
-  const countries = useSelector(selectCountries);
-  const tags = useSelector(selectTags);
+const InformeForm = (props) => {
+  const informe = useSelector(selectInforme);
+  const integrantes = useSelector(selectIntegrantes);
+  const tiposreunion = useSelector(selectTiposreunion);
   const routeParams = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,18 +56,18 @@ const ContactForm = (props) => {
 
   useEffect(() => {
     if (routeParams.id === 'new') {
-      dispatch(newContact());
+      dispatch(newInforme());
     } else {
-      dispatch(getContact(routeParams.id));
+      dispatch(getInforme(routeParams.id));
     }
   }, [dispatch, routeParams]);
 
   useEffect(() => {
-    reset({ ...contact });
-  }, [contact, reset]);
+    reset({ ...informe });
+  }, [informe, reset]);
 
-  function getCountryByIso(iso) {
-    return countries.find((country) => country.iso === iso);
+  function getIntegranteById(id) {
+    return integrantes.find((integrante) => integrante.id === id);
   }
 
   /**
@@ -75,21 +75,21 @@ const ContactForm = (props) => {
    */
   function onSubmit(data) {
     if (routeParams.id === 'new') {
-      dispatch(addContact(data)).then(({ payload }) => {
-        navigate(`/integrantes/${payload.id}`);
+      dispatch(addInforme(data)).then(({ payload }) => {
+        navigate(`/informes/${payload.id}`);
       });
     } else {
-      dispatch(updateContact(data));
+      dispatch(updateInforme(data));
     }
   }
 
-  function handleRemoveContact() {
-    dispatch(removeContact(contact.id)).then(() => {
-      navigate('/integrantes');
+  function handleRemoveInforme() {
+    dispatch(removeInforme(informe.id)).then(() => {
+      navigate('/informes');
     });
   }
 
-  if (_.isEmpty(form) || !contact) {
+  if (_.isEmpty(form) || !informe) {
     return <FuseLoading />;
   }
 
@@ -101,10 +101,10 @@ const ContactForm = (props) => {
           backgroundColor: 'background.default',
         }}
       >
-        {contact.background && (
+        {informe.background && (
           <img
             className="absolute inset-0 object-cover w-full h-full"
-            src={contact.background}
+            src={informe.background}
             alt="user background"
           />
         )}
@@ -178,9 +178,9 @@ const ContactForm = (props) => {
                     }}
                     className="object-cover w-full h-full text-64 font-bold"
                     src={value}
-                    alt={contact.name}
+                    alt={informe.name}
                   >
-                    {contact.name.charAt(0)}
+                    {informe.name.charAt(0)}
                   </Avatar>
                 </Box>
               )}
@@ -222,7 +222,7 @@ const ContactForm = (props) => {
               multiple
               id="tags"
               className="mt-32"
-              options={tags}
+              options={tiposreunion}
               disableCloseOnSelect
               getOptionLabel={(option) => option.title}
               renderOption={(_props, option, { selected }) => (
@@ -231,7 +231,7 @@ const ContactForm = (props) => {
                   {option.title}
                 </li>
               )}
-              value={value ? value.map((id) => _.find(tags, { id })) : []}
+              value={value ? value.map((id) => _.find(tiposreunion, { id })) : []}
               onChange={(event, newValue) => {
                 onChange(newValue.map((item) => item.id));
               }}
@@ -394,7 +394,7 @@ const ContactForm = (props) => {
         sx={{ backgroundColor: 'background.default' }}
       >
         {routeParams.id !== 'new' && (
-          <Button color="error" onClick={handleRemoveContact}>
+          <Button color="error" onClick={handleRemoveInforme}>
             Delete
           </Button>
         )}
@@ -415,4 +415,4 @@ const ContactForm = (props) => {
   );
 };
 
-export default ContactForm;
+export default InformeForm;

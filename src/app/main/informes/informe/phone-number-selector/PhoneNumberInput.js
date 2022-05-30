@@ -7,8 +7,8 @@ import * as yup from 'yup';
 import IconButton from '@mui/material/IconButton';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { selectCountries } from '../../store/countriesSlice';
-import CountryCodeSelector from './CountryCodeSelector';
+import { selectIntegrantes } from '../../store/integrantesSlice';
+import CountryCodeSelector from './IntegranteCodeSelector';
 
 const schema = yup.object().shape({
   country: yup.string(),
@@ -24,7 +24,7 @@ const defaultValues = {
 
 function PhoneNumberInput(props) {
   const { value, hideRemove } = props;
-  const countries = useSelector(selectCountries);
+  const countries = useSelector(selectIntegrantes);
 
   const { control, formState, handleSubmit, reset } = useForm({
     mode: 'onChange',

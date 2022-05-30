@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const getTags = createAsyncThunk(
+export const getTiposreunion = createAsyncThunk(
   'contactsApp/tags/getTags',
   async (params, { getState }) => {
     const response = await axios.get('/api/contacts/tags');
@@ -14,7 +14,7 @@ export const getTags = createAsyncThunk(
 
 const tagsAdapter = createEntityAdapter({});
 
-export const { selectAll: selectTags, selectById: selectTagsById } = tagsAdapter.getSelectors(
+export const { selectAll: selectTiposreunion, selectById: selectTagsById } = tagsAdapter.getSelectors(
   (state) => state.contactsApp.tags
 );
 
@@ -23,7 +23,7 @@ const tagsSlice = createSlice({
   initialState: tagsAdapter.getInitialState([]),
   reducers: {},
   extraReducers: {
-    [getTags.fulfilled]: tagsAdapter.setAll,
+    [getTiposreunion.fulfilled]: tagsAdapter.setAll,
   },
 });
 

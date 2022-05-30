@@ -7,11 +7,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Box from '@mui/system/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { selectCountries } from '../../store/countriesSlice';
+import { selectIntegrantes } from '../../store/integrantesSlice';
 
-const CountryCodeSelector = forwardRef(({ value, onChange, className }, ref) => {
-  const countries = useSelector(selectCountries);
-  const country = _.find(countries, { iso: value });
+const IntegranteCodeSelector = forwardRef(({ value, onChange, className }, ref) => {
+  const integrantes = useSelector(selectIntegrantes);
+  const integrante = _.find(integrantes, { id: value });
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -40,10 +40,10 @@ const CountryCodeSelector = forwardRef(({ value, onChange, className }, ref) => 
           sx={{
             background: "url('/assets/images/apps/contacts/flags.png') no-repeat 0 0",
             backgroundSize: '24px 3876px',
-            backgroundPosition: country?.flagImagePos,
+            backgroundPosition: integrante?.flagImagePos,
           }}
         />
-        <span className="ml-8 font-medium">{country?.code}</span>
+        <span className="ml-8 font-medium">{integrante?.code}</span>
       </Button>
       <Menu
         id="country-menu"
@@ -54,7 +54,7 @@ const CountryCodeSelector = forwardRef(({ value, onChange, className }, ref) => 
         open={open}
         onClose={handleClose}
       >
-        {countries.map((item) => (
+        {integrantes.map((item) => (
           <MenuItem
             onClick={() => {
               onChange(item.iso);
@@ -80,4 +80,4 @@ const CountryCodeSelector = forwardRef(({ value, onChange, className }, ref) => 
   );
 });
 
-export default CountryCodeSelector;
+export default IntegranteCodeSelector;
