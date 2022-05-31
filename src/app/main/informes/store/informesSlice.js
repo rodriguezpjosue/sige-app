@@ -21,7 +21,7 @@ export const getInformes = createAsyncThunk(
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'sige.informereunion',
             filter: `[('red_id', '=', ${window.localStorage.getItem('red_id')})]`, // red_id
-            fields: "['fechareunion', 'tema', 'total_asistentes', 'state']",
+            fields: "['fechareunion', 'tema', 'total_asistentes', 'state', 'tiporeunion_id']",
           },
         },
       },

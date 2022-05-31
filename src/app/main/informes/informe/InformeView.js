@@ -10,18 +10,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import format from 'date-fns/format';
-import _ from '@lodash';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getInforme, selectInforme } from '../store/informeSlice';
 import { selectIntegrantes } from '../store/integrantesSlice';
-// import { selectTags } from '../store/tagsSlice';
+import { selectTiposreunion } from '../store/tiposreunionSlice';
 
 const InformeView = () => {
   const informe = useSelector(selectInforme);
-  console.log(informe);
   const integrantes = useSelector(selectIntegrantes);
-  console.log(integrantes);
-  // const tags = useSelector(selectTags);
+  const tiposreunion = useSelector(selectTiposreunion);
   const routeParams = useParams();
   const dispatch = useDispatch();
 
@@ -31,6 +28,13 @@ const InformeView = () => {
 
   function getIntegranteById(id) {
     return integrantes.find((integrante) => integrante.id === id);
+  }
+
+  function getCheckedIntegranteById(id) {
+    if (informe.asistentes_ids.find((asistente) => asistente.id === id)) {
+      return true;
+    }
+    return false;
   }
 
   if (!informe) {
@@ -71,7 +75,10 @@ const InformeView = () => {
 
             {integrantes.length > 0 && (
               <div className="flex flex-col">
-                <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
+                <div className="flex items-center">
+                  <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
+                  <div className="ml-24 leading-6">Asistieron:</div>
+                </div>
                 {integrantes.map((integrante) => (
                   <FormControlLabel
                     className="flex flex-row"
@@ -79,10 +86,11 @@ const InformeView = () => {
                       <Checkbox
                         value={integrante.id}
                         key={integrante.id}
-                        checked={informe.asistentes_ids.find((el) => el.id === integrante.id)}
+                        checked={getCheckedIntegranteById(integrante.id)}
+                        disabled
                       />
                     }
-                    label={integrante.name}
+                    label={stringOperations.capitalizeWords(integrante.name)}
                   />
                 ))}
               </div>

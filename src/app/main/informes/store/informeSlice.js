@@ -17,7 +17,7 @@ export const getInforme = createAsyncThunk(
               model: 'sige.informereunion',
               filter: `[('id', '=',  ${id})]`, // red_id
               fields:
-                "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state']",
+                "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
             },
           },
         },

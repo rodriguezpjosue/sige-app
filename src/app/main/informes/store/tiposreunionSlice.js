@@ -8,23 +8,22 @@ export const getTiposreunion = createAsyncThunk(
 
     const data = await response.data;
 
-    return data;
+    return data.result.data;
   }
 );
 
-const tagsAdapter = createEntityAdapter({});
+const tiposreunionAdapter = createEntityAdapter({});
 
-export const { selectAll: selectTiposreunion, selectById: selectTagsById } = tagsAdapter.getSelectors(
-  (state) => state.contactsApp.tags
-);
+export const { selectAll: selectTiposreunion, selectById: selectTagsById } =
+  tiposreunionAdapter.getSelectors((state) => state.informesApp.tiposreunion);
 
-const tagsSlice = createSlice({
-  name: 'contactsApp/tags',
-  initialState: tagsAdapter.getInitialState([]),
+const tiposreunionSlice = createSlice({
+  name: 'informesApp/tiposreunion',
+  initialState: tiposreunionAdapter.getInitialState([]),
   reducers: {},
   extraReducers: {
-    [getTiposreunion.fulfilled]: tagsAdapter.setAll,
+    [getTiposreunion.fulfilled]: tiposreunionAdapter.setAll,
   },
 });
 
-export default tagsSlice.reducer;
+export default tiposreunionSlice.reducer;

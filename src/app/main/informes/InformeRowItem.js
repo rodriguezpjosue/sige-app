@@ -18,7 +18,9 @@ function InformeListItem(props) {
           {stringOperations.getLocaleDateTime(informe.fechareunion).toLocaleString()}
         </TableCell>
         <TableCell>{stringOperations.capitalizeFirst(informe.tema)}</TableCell>
-        <TableCell>{informe.total_asistentes}</TableCell>
+        <TableCell>
+          {informe.tiporeunion_id.length > 0 ? informe.tiporeunion_id[0].name : ``}
+        </TableCell>
         <TableCell>{stringOperations.capitalizeFirst(informe.state)}</TableCell>
         <TableCell>&nbsp;</TableCell>
       </TableRow>
