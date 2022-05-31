@@ -36,6 +36,7 @@ function InformesTable(props) {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
       className="flex flex-col flex-auto w-full max-h-full"
+      style={{ padding: '1.2em' }}
     >
       {Object.entries(groupedFilteredInformes)
         .reverse()

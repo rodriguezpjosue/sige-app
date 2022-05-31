@@ -11,7 +11,7 @@ function InformesSidebarContent(props) {
     <div className="flex flex-col flex-auto">
       <IconButton
         className="absolute top-0 right-0 my-16 mx-32 z-10"
-        sx={{ color: 'white' }}
+        sx={{ color: 'black' }}
         component={NavLinkAdapter}
         to="/informes"
         size="large"

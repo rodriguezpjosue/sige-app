@@ -49,14 +49,14 @@ const InformeView = () => {
               <div className="flex items-center ml-auto mb-4">
                 <Button variant="contained" color="secondary" component={NavLinkAdapter} to="edit">
                   <FuseSvgIcon size={20}>heroicons-outline:pencil-alt</FuseSvgIcon>
-                  <span className="mx-8">Edit</span>
+                  <span className="mx-8">Editar</span>
                 </Button>
               </div>
             </div>
           )}
 
-          <Typography className="mt-12 text-4xl font-bold truncate">
-            {stringOperations.capitalizeWords(informe.tema)}
+          <Typography className="mt-12 text-2xl font-bold" style={{ wordWrap: 'break-word' }}>
+            {stringOperations.getLocaleDateTime(informe.fechareunion).toLocaleString('es-CO')}
           </Typography>
 
           <Divider className="mt-16 mb-24" />
@@ -67,7 +67,7 @@ const InformeView = () => {
                 <div className="flex items-center">
                   <FuseSvgIcon>heroicons-outline:cake</FuseSvgIcon>
                   <div className="ml-24 leading-6">
-                    {format(new Date(informe.fechareunion), 'MMMM d, y')}
+                    {stringOperations.capitalizeWords(informe.tema)}
                   </div>
                 </div>
               )}
@@ -82,6 +82,7 @@ const InformeView = () => {
                 {integrantes.map((integrante) => (
                   <FormControlLabel
                     className="flex flex-row"
+                    style={{ marginLeft: '20px' }}
                     control={
                       <Checkbox
                         value={integrante.id}

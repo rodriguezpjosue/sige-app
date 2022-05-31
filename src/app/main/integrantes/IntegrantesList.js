@@ -18,7 +18,7 @@ function ContactsList(props) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
         <Typography color="text.secondary" variant="h5">
-          There are no contacts!
+          No tiene integrantes aún
         </Typography>
       </div>
     );

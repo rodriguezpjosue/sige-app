@@ -13,6 +13,7 @@ function InformeListItem(props) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         component={NavLinkAdapter}
         to={`/informes/${informe.id}`}
+        className="MuiButtonBase-root"
       >
         <TableCell>
           {stringOperations.getLocaleDateTime(informe.fechareunion).toLocaleString()}
