@@ -16,6 +16,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import {
   addInforme,
@@ -27,14 +29,12 @@ import {
 } from '../store/informeSlice';
 import { selectIntegrantes } from '../store/integrantesSlice';
 import { selectTiposreunion } from '../store/tiposreunionSlice';
-import IntegranteEmailSelector from './email-selector/IntegranteEmailSelector';
-import PhoneNumberSelector from './phone-number-selector/PhoneNumberSelector';
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  name: yup.string().required('You must enter a name'),
+  tema: yup.string().required('Debes colocar ek tema de tu reunión RED.'),
 });
 
 const InformeForm = (props) => {
@@ -95,111 +95,58 @@ const InformeForm = (props) => {
 
   return (
     <>
-      <Box
-        className="relative w-full h-160 sm:h-192 px-32 sm:px-48"
-        sx={{
-          backgroundColor: 'background.default',
-        }}
-      >
-        {informe.background && (
-          <img
-            className="absolute inset-0 object-cover w-full h-full"
-            src={informe.background}
-            alt="user background"
-          />
-        )}
-      </Box>
-
       <div className="relative flex flex-col flex-auto items-center px-24 sm:px-48">
-        <div className="w-full">
-          <div className="flex flex-auto items-end -mt-64">
-            <Controller
-              control={control}
-              name="avatar"
-              render={({ field: { onChange, value } }) => (
-                <Box
-                  sx={{
-                    borderWidth: 4,
-                    borderStyle: 'solid',
-                    borderColor: 'background.paper',
-                  }}
-                  className="relative flex items-center justify-center w-128 h-128 rounded-full overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <div>
-                      <label htmlFor="button-avatar" className="flex p-8 cursor-pointer">
-                        <input
-                          accept="image/*"
-                          className="hidden"
-                          id="button-avatar"
-                          type="file"
-                          onChange={async (e) => {
-                            function readFileAsync() {
-                              return new Promise((resolve, reject) => {
-                                const file = e.target.files[0];
-                                if (!file) {
-                                  return;
-                                }
-                                const reader = new FileReader();
-
-                                reader.onload = () => {
-                                  resolve(`data:${file.type};base64,${btoa(reader.result)}`);
-                                };
-
-                                reader.onerror = reject;
-
-                                reader.readAsBinaryString(file);
-                              });
-                            }
-
-                            const newImage = await readFileAsync();
-
-                            onChange(newImage);
-                          }}
-                        />
-                        <FuseSvgIcon className="text-white">heroicons-outline:camera</FuseSvgIcon>
-                      </label>
-                    </div>
-                    <div>
-                      <IconButton
-                        onClick={() => {
-                          onChange('');
-                        }}
-                      >
-                        <FuseSvgIcon className="text-white">heroicons-solid:trash</FuseSvgIcon>
-                      </IconButton>
-                    </div>
-                  </div>
-                  <Avatar
-                    sx={{
-                      backgroundColor: 'background.default',
-                      color: 'text.secondary',
-                    }}
-                    className="object-cover w-full h-full text-64 font-bold"
-                    src={value}
-                    alt={informe.name}
-                  >
-                    {informe.name.charAt(0)}
-                  </Avatar>
-                </Box>
-              )}
-            />
-          </div>
-        </div>
-
         <Controller
           control={control}
-          name="name"
+          name="fechareunion"
+          render={({ field }) => (
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                {...field}
+                className="mt-8 mb-16 w-full"
+                clearable
+                showTodayButton
+                required
+                inputFormat="dd/MM/yyyy hh:mm a"
+                mask="___/__/__ __:__ _M"
+                maxDateTime={new Date()}
+                renderInput={(_props) => (
+                  <TextField
+                    {..._props}
+                    className="mt-32"
+                    id="fechareunion"
+                    label="Fecha de reunión"
+                    type="datetime"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FuseSvgIcon size={20}>heroicons-solid:cake</FuseSvgIcon>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          )}
+        />
+        <Controller
+          control={control}
+          name="tema"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Name"
-              placeholder="Name"
-              id="name"
-              error={!!errors.name}
-              helperText={errors?.name?.message}
+              label="Tema"
+              placeholder="Tema"
+              id="tema"
+              error={!!errors.tema}
+              helperText={errors?.tema?.message}
               variant="outlined"
               required
               fullWidth
@@ -216,161 +163,44 @@ const InformeForm = (props) => {
 
         <Controller
           control={control}
-          name="tags"
+          name="asistentes_ids"
           render={({ field: { onChange, value } }) => (
             <Autocomplete
               multiple
-              id="tags"
+              id="asistentes_ids"
               className="mt-32"
-              options={tiposreunion}
+              options={integrantes}
               disableCloseOnSelect
-              getOptionLabel={(option) => option.title}
+              getOptionLabel={(option) => option.name}
               renderOption={(_props, option, { selected }) => (
                 <li {..._props}>
                   <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                  {option.title}
+                  {option.name}
                 </li>
               )}
-              value={value ? value.map((id) => _.find(tiposreunion, { id })) : []}
+              value={value ? value.map((id) => _.find(integrantes, { id })) : []}
               onChange={(event, newValue) => {
                 onChange(newValue.map((item) => item.id));
               }}
               fullWidth
-              renderInput={(params) => <TextField {...params} label="Tags" placeholder="Tags" />}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="title"
-          render={({ field }) => (
-            <TextField
-              className="mt-32"
-              {...field}
-              label="Title"
-              placeholder="Job title"
-              id="title"
-              error={!!errors.title}
-              helperText={errors?.title?.message}
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:briefcase</FuseSvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="company"
-          render={({ field }) => (
-            <TextField
-              className="mt-32"
-              {...field}
-              label="Company"
-              placeholder="Company"
-              id="company"
-              error={!!errors.company}
-              helperText={errors?.company?.message}
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:office-building</FuseSvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="emails"
-          render={({ field }) => <IntegranteEmailSelector className="mt-32" {...field} />}
-        />
-
-        <Controller
-          control={control}
-          name="phoneNumbers"
-          render={({ field }) => <PhoneNumberSelector className="mt-32" {...field} />}
-        />
-
-        <Controller
-          control={control}
-          name="address"
-          render={({ field }) => (
-            <TextField
-              className="mt-32"
-              {...field}
-              label="Address"
-              placeholder="Address"
-              id="address"
-              error={!!errors.address}
-              helperText={errors?.address?.message}
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:location-marker</FuseSvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="birthday"
-          render={({ field }) => (
-            <DateTimePicker
-              {...field}
-              className="mt-8 mb-16 w-full"
-              clearable
-              showTodayButton
-              renderInput={(_props) => (
-                <TextField
-                  {..._props}
-                  className="mt-32"
-                  id="birthday"
-                  label="Birthday"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <FuseSvgIcon size={20}>heroicons-solid:cake</FuseSvgIcon>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+              renderInput={(params) => (
+                <TextField {...params} required label="Asistieron" placeholder="Asistieron" />
               )}
             />
           )}
         />
         <Controller
           control={control}
-          name="notes"
+          name="observaciones"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Notes"
-              placeholder="Notes"
-              id="notes"
-              error={!!errors.notes}
-              helperText={errors?.notes?.message}
+              label="Observaciones"
+              placeholder="Observaciones"
+              id="observaciones"
+              error={!!errors.observaciones}
+              helperText={errors?.observaciones?.message}
               variant="outlined"
               fullWidth
               multiline
@@ -395,11 +225,11 @@ const InformeForm = (props) => {
       >
         {routeParams.id !== 'new' && (
           <Button color="error" onClick={handleRemoveInforme}>
-            Delete
+            Elimminar
           </Button>
         )}
         <Button className="ml-auto" component={NavLinkAdapter} to={-1}>
-          Cancel
+          Cancelar
         </Button>
         <Button
           className="ml-8"
@@ -408,7 +238,7 @@ const InformeForm = (props) => {
           disabled={_.isEmpty(dirtyFields) || !isValid}
           onClick={handleSubmit(onSubmit)}
         >
-          Save
+          Guardar
         </Button>
       </Box>
     </>

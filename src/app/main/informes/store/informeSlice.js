@@ -38,7 +38,25 @@ export const getInforme = createAsyncThunk(
 export const addInforme = createAsyncThunk(
   'informesApp/informes/addInforme',
   async (informe, { dispatch, getState }) => {
-    const response = await axios.post('/api/informes', informe);
+    informe.asistentes_ids = [[6, 0, informe.asistentes_ids]];
+    const response = await axios.post(
+      'rest',
+      {
+        params: {
+          endpoint: 'search_read',
+          args: {
+            sid: window.localStorage.getItem('session_id'), // session_id
+            model: 'sige.informereunion',
+            filter: `[('id', '=',  ${informe})]`, // red_id
+            fields:
+              "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
+          },
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
     const data = await response.data;
 

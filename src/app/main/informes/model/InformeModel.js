@@ -2,17 +2,12 @@ import _ from '@lodash';
 
 const InformeModel = (data) =>
   _.defaults(data || {}, {
-    avatar: null,
-    background: null,
-    name: '',
-    emails: [{ email: '', label: '' }],
-    phoneNumbers: [{ country: 'us', phoneNumber: '', label: '' }],
-    title: '',
-    company: '',
-    birthday: null,
-    address: '',
-    notes: '',
-    tags: [],
+    state: 'borrador',
+    tema: 'TcD',
+    tiporeunion_id: 1,
+    fechareunion: new Date(),
+    asistentes_ids: [],
+    observaciones: [],
   });
 
 export default InformeModel;
