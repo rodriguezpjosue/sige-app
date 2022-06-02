@@ -124,7 +124,7 @@ class SIGEService extends FuseUtils.EventEmitter {
             params: {
               endpoint: 'login',
               args: {
-                db: 'sige',
+                db: 'sige8',
                 login: user,
                 password: pass,
               },

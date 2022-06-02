@@ -23,19 +23,23 @@ class StringOperations {
   };
 
   datetimeStringToDateTime = (datetimeString) => {
-    const dateTimeParts = datetimeString.split(' ');
-    const timeParts = dateTimeParts[1].split(':');
-    const dateParts = dateTimeParts[0].split('-');
+    if (!(datetimeString instanceof Date)) {
+      const dateTimeParts = datetimeString.split(' ');
+      const timeParts = dateTimeParts[1].split(':');
+      const dateParts = dateTimeParts[0].split('-');
 
-    const date = new Date(
-      dateParts[0],
-      parseInt(dateParts[1], 10) - 1,
-      dateParts[2],
-      timeParts[0],
-      timeParts[1]
-    );
+      const date = new Date(
+        dateParts[0],
+        parseInt(dateParts[1], 10) - 1,
+        dateParts[2],
+        timeParts[0],
+        timeParts[1]
+      );
 
-    return date;
+      return date;
+    }
+
+    return datetimeString;
   };
 
   hoursLocaleTimeZone = () => {

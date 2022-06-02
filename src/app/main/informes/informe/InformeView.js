@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
@@ -31,7 +32,7 @@ const InformeView = () => {
   }
 
   function getCheckedIntegranteById(id) {
-    if (informe.asistentes_ids.find((asistente) => asistente.id === id)) {
+    if (informe.asistentes_ids.find((asistente) => asistente === id)) {
       return true;
     }
     return false;
@@ -43,9 +44,9 @@ const InformeView = () => {
   return (
     <>
       <div className="relative flex flex-col flex-auto items-center p-24 pt-0 sm:p-48 sm:pt-0">
-        <div className="w-full max-w-3xl">
-          {informe.state === 'borrador' && (
-            <div className="flex flex-auto items-end -mt-64">
+        <div className="w-full max-w-3xl" style={{paddingTop: '2.4em'}}>
+          {informe.state === 'draft' && (
+            <div className="flex flex-auto items-end">
               <div className="flex items-center ml-auto mb-4">
                 <Button variant="contained" color="secondary" component={NavLinkAdapter} to="edit">
                   <FuseSvgIcon size={20}>heroicons-outline:pencil-alt</FuseSvgIcon>

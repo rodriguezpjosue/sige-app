@@ -10,10 +10,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import Box from '@mui/system/Box';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -34,7 +32,7 @@ import { selectTiposreunion } from '../store/tiposreunionSlice';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  tema: yup.string().required('Debes colocar ek tema de tu reunión RED.'),
+  tema: yup.string().required('Debes colocar el tema de tu reunión RED.'),
 });
 
 const InformeForm = (props) => {
@@ -89,7 +87,7 @@ const InformeForm = (props) => {
     });
   }
 
-  if (_.isEmpty(form) || !informe) {
+  if (_.isEmpty(form) || !informe || !integrantes) {
     return <FuseLoading />;
   }
 
@@ -161,34 +159,37 @@ const InformeForm = (props) => {
           )}
         />
 
-        <Controller
-          control={control}
-          name="asistentes_ids"
-          render={({ field: { onChange, value } }) => (
-            <Autocomplete
-              multiple
-              id="asistentes_ids"
-              className="mt-32"
-              options={integrantes}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.name}
-              renderOption={(_props, option, { selected }) => (
-                <li {..._props}>
-                  <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                  {option.name}
-                </li>
-              )}
-              value={value ? value.map((id) => _.find(integrantes, { id })) : []}
-              onChange={(event, newValue) => {
-                onChange(newValue.map((item) => item.id));
-              }}
-              fullWidth
-              renderInput={(params) => (
-                <TextField {...params} required label="Asistieron" placeholder="Asistieron" />
-              )}
-            />
-          )}
-        />
+        {integrantes.length > 0 && (
+          <Controller
+            control={control}
+            name="asistentes_ids"
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
+                multiple
+                id="asistentes_ids"
+                className="mt-32"
+                options={integrantes}
+                disableCloseOnSelect
+                getOptionLabel={(option) => (option ? option.name : '')}
+                renderOption={(_props, option, { selected }) => (
+                  <li {..._props} key={option.id}>
+                    <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                    {option.name}
+                  </li>
+                )}
+                value={value ? value.map((id) => _.find(integrantes, { id })) : []}
+                onChange={(event, newValue) => {
+                  onChange(newValue.map((item) => item.id));
+                }}
+                fullWidth
+                renderInput={(params) => (
+                  <TextField {...params} required label="Asistieron" placeholder="Asistieron" />
+                )}
+              />
+            )}
+          />
+        )}
+
         <Controller
           control={control}
           name="observaciones"
@@ -225,7 +226,7 @@ const InformeForm = (props) => {
       >
         {routeParams.id !== 'new' && (
           <Button color="error" onClick={handleRemoveInforme}>
-            Elimminar
+            Eliminar
           </Button>
         )}
         <Button className="ml-auto" component={NavLinkAdapter} to={-1}>

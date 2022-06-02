@@ -27,7 +27,10 @@ export const getInforme = createAsyncThunk(
       );
 
       const data = await response.data;
-      return data.result.data[0];
+      const informe = data.result.data[0];
+      const asistentesIds = informe.asistentes_ids;
+      informe.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
+      return informe;
     } catch (error) {
       history.push({ pathname: `/informes` });
       return null;
@@ -39,15 +42,17 @@ export const addInforme = createAsyncThunk(
   'informesApp/informes/addInforme',
   async (informe, { dispatch, getState }) => {
     informe.asistentes_ids = [[6, 0, informe.asistentes_ids]];
+    informe.observaciones = [[6, 0, informe.observaciones]];
+    informe.fechareunion = informe.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
     const response = await axios.post(
       'rest',
       {
         params: {
-          endpoint: 'search_read',
+          endpoint: 'create',
           args: {
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'sige.informereunion',
-            filter: `[('id', '=',  ${informe})]`, // red_id
+            vals: informe,
             fields:
               "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
           },
@@ -59,8 +64,7 @@ export const addInforme = createAsyncThunk(
     );
 
     const data = await response.data;
-
-    return data;
+    return data.result.data;
   }
 );
 

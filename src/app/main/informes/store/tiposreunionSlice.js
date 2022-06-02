@@ -2,9 +2,25 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import axios from 'axios';
 
 export const getTiposreunion = createAsyncThunk(
-  'contactsApp/tags/getTags',
+  'informesApp/tiposreunion/getTiposreunion',
   async (params, { getState }) => {
-    const response = await axios.get('/api/contacts/tags');
+    const response = await axios.post(
+      'rest',
+      {
+        params: {
+          endpoint: 'search_read',
+          args: {
+            sid: window.localStorage.getItem('session_id'),
+            model: 'sige.informereunion.tipo',
+            filter: `[('id', '!=',  None)]`,
+            fields: "[id', 'name']",
+          },
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
     const data = await response.data;
 

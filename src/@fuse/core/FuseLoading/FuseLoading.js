@@ -20,7 +20,7 @@ function FuseLoading(props) {
       )}
     >
       <Typography className="text-13 sm:text-20 font-medium -mb-16" color="text.secondary">
-        Loading
+        Cargando
       </Typography>
       <Box
         id="spinner"
