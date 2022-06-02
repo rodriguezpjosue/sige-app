@@ -30,6 +30,7 @@ export const getInforme = createAsyncThunk(
       const informe = data.result.data[0];
       const asistentesIds = informe.asistentes_ids;
       informe.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
+      informe.tiporeunion_id = informe.tiporeunion_id[0].id;
       return informe;
     } catch (error) {
       history.push({ pathname: `/informes` });
@@ -42,7 +43,9 @@ export const addInforme = createAsyncThunk(
   'informesApp/informes/addInforme',
   async (informe, { dispatch, getState }) => {
     informe.asistentes_ids = [[6, 0, informe.asistentes_ids]];
-    informe.observaciones = [[6, 0, informe.observaciones]];
+    if (informe.observaciones) {
+      informe.observaciones = [[0, 0, { observaciones: informe.observaciones }]];
+    }
     informe.fechareunion = informe.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
     const response = await axios.post(
       'rest',
@@ -71,11 +74,39 @@ export const addInforme = createAsyncThunk(
 export const updateInforme = createAsyncThunk(
   'informesApp/informes/updateInforme',
   async (informe, { dispatch, getState }) => {
-    const response = await axios.put(`/api/informes/${informe.id}`, informe);
+    informe.asistentes_ids = [[6, 0, informe.asistentes_ids]];
+    if (informe.observaciones) {
+      informe.observaciones = [[0, 0, { observaciones: informe.observaciones }]];
+    }
+    if (informe.fechareunions) {
+      informe.fechareunion = informe.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
+    }
+    const response = await axios.post(
+      'rest',
+      {
+        params: {
+          endpoint: 'write',
+          args: {
+            sid: window.localStorage.getItem('session_id'), // session_id
+            model: 'sige.informereunion',
+            id: informe.id,
+            vals: informe,
+            fields:
+              "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
+          },
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
     const data = await response.data;
-
-    return data;
+    const informeEdited = data.result.data;
+    const asistentesIds = informeEdited.asistentes_ids;
+    informeEdited.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
+    informeEdited.tiporeunion_id = informeEdited.tiporeunion_id[0].id;
+    return informeEdited;
   }
 );
 

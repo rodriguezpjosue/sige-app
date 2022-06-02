@@ -7,7 +7,7 @@ const InformeModel = (data) =>
     tiporeunion_id: 1,
     fechareunion: new Date(),
     asistentes_ids: [],
-    observaciones: [],
+    observaciones: '',
   });
 
 export default InformeModel;

@@ -115,6 +115,7 @@ const InformeForm = (props) => {
                     id="fechareunion"
                     label="Fecha de reunión"
                     type="datetime"
+                    required
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -123,7 +124,7 @@ const InformeForm = (props) => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <FuseSvgIcon size={20}>heroicons-solid:cake</FuseSvgIcon>
+                          <FuseSvgIcon size={20}>heroicons-solid:calendar</FuseSvgIcon>
                         </InputAdornment>
                       ),
                     }}
