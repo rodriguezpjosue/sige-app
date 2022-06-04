@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
-import { getInforme, selectInforme, procesoOficinaInforme } from '../store/informeSlice';
+import { getInforme, selectInforme } from '../store/informeSlice';
 import { selectIntegrantes } from '../store/integrantesSlice';
 import { selectTiposreunion } from '../store/tiposreunionSlice';
 
@@ -84,6 +84,7 @@ const InformeView = () => {
                   <FormControlLabel
                     className="flex flex-row"
                     style={{ marginLeft: '20px' }}
+                    key={integrante.id}
                     control={
                       <Checkbox
                         value={integrante.id}

@@ -49,13 +49,14 @@ function InformesTable(props) {
               <Divider />
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table">
+                  <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table" key={key}>
                     <TableHead>
                       <TableRow>
                         <TableCell>Fecha de reunión</TableCell>
                         <TableCell>Tema</TableCell>
                         <TableCell>Tipo reunión</TableCell>
                         <TableCell>Situación</TableCell>
+                        <TableCell>&nbsp;</TableCell>
                         <TableCell>&nbsp;</TableCell>
                       </TableRow>
                     </TableHead>
