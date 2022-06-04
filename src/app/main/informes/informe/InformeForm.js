@@ -14,8 +14,6 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import {
   addInforme,
@@ -98,40 +96,38 @@ const InformeForm = (props) => {
           control={control}
           name="fechareunion"
           render={({ field }) => (
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                {...field}
-                className="mt-8 mb-16 w-full"
-                clearable
-                showTodayButton
-                required
-                inputFormat="dd/MM/yyyy hh:mm a"
-                mask="___/__/__ __:__ _M"
-                maxDateTime={new Date()}
-                renderInput={(_props) => (
-                  <TextField
-                    {..._props}
-                    className="mt-32"
-                    id="fechareunion"
-                    label="Fecha de reunión"
-                    type="datetime"
-                    required
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FuseSvgIcon size={20}>heroicons-solid:calendar</FuseSvgIcon>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
+            <DateTimePicker
+              {...field}
+              className="mt-8 mb-16 w-full"
+              clearable
+              showTodayButton
+              required
+              inputFormat="dd/MM/yyyy hh:mm a"
+              mask="__/__/____ __:__ _M"
+              maxDateTime={new Date()}
+              renderInput={(_props) => (
+                <TextField
+                  {..._props}
+                  className="mt-32"
+                  id="fechareunion"
+                  label="Fecha de reunión"
+                  type="datetime"
+                  required
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FuseSvgIcon size={20}>heroicons-solid:calendar</FuseSvgIcon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
           )}
         />
         <Controller

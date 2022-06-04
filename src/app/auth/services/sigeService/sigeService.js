@@ -161,6 +161,12 @@ class SIGEService extends FuseUtils.EventEmitter {
     }
   };
 
+  updateUserData = (user) => {
+    return axios.post(sigeServiceConfig.updateUser, {
+      user,
+    });
+  };
+
   logout = () => {
     this.setSession(null);
     this.emit('onLogout', 'Logged out');

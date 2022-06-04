@@ -15,7 +15,6 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
-import jwtService from '../../auth/services/jwtService';
 import sigeService from '../../auth/services/sigeService';
 
 /**
@@ -73,7 +72,7 @@ function SignInPage() {
           <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Sign in
+            Ingresar
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
             <Typography>Don't have an account?</Typography>
@@ -95,7 +94,7 @@ function SignInPage() {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Username"
+                  label="Usuario"
                   autoFocus
                   type="text"
                   error={!!errors.username}
@@ -114,7 +113,7 @@ function SignInPage() {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Password"
+                  label="Contraseña"
                   type="password"
                   error={!!errors.password}
                   helperText={errors?.password?.message}
@@ -153,7 +152,7 @@ function SignInPage() {
               type="submit"
               size="large"
             >
-              Sign in
+              Ingresar
             </Button>
 
             <div className="flex items-center mt-32">

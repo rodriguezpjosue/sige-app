@@ -53,6 +53,23 @@ class StringOperations {
     const timeStampLocale = timeStamp - this.hoursLocaleTimeZone() * 60 * 60 * 1000;
     return new Date(timeStampLocale);
   };
+
+  setDateTimeString = (dateTime) => {
+    if (dateTime instanceof Date) {
+      const newDateTimeString =
+        dateTime.getFullYear() +
+        '-' +
+        ('0' + (dateTime.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + dateTime.getDate()).slice(-2) +
+        ' ' +
+        dateTime.getHours() +
+        ':' +
+        dateTime.getMinutes();
+      return newDateTimeString;
+    }
+    return dateTime;
+  };
 }
 
 const instance = new StringOperations();

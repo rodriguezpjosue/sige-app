@@ -36,13 +36,11 @@ function AuthProvider({ children }) {
 
     sigeService.on('onLogout', () => {
       pass('Signed out');
-
       dispatch(logoutUser());
     });
 
     sigeService.on('onAutoLogout', (message) => {
       pass(message);
-
       dispatch(logoutUser());
     });
 

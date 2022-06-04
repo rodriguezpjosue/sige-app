@@ -9,7 +9,7 @@ function InformeListItem(props) {
   return (
     <>
       <TableRow
-        key={informe.id} 
+        key={informe.id}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         component={NavLinkAdapter}
         to={`/informes/${informe.id}`}
