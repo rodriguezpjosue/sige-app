@@ -31,6 +31,14 @@ const InformeView = () => {
     return integrantes.find((integrante) => integrante.id === id);
   }
 
+  function getTiporeunionById(id) {
+    const tr = tiposreunion.find((tiporeunion) => tiporeunion.id === id);
+    if (typeof tr === 'object' && tr !== null) {
+      return tr.name;
+    }
+    return ``;
+  }
+
   function getCheckedIntegranteById(id) {
     if (informe.asistentes_ids.find((asistente) => asistente === id)) {
       return true;
@@ -64,11 +72,33 @@ const InformeView = () => {
 
           <div className="flex flex-col space-y-32">
             <div className="flex flex-row">
-              {informe.fechareunion && (
+              {informe.tema && (
                 <div className="flex items-center">
-                  <FuseSvgIcon>heroicons-outline:cake</FuseSvgIcon>
+                  <FuseSvgIcon>heroicons-outline:annotation</FuseSvgIcon>
                   <div className="ml-24 leading-6">
                     {stringOperations.capitalizeWords(informe.tema)}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-row">
+              {informe.state && (
+                <div className="flex items-center">
+                  <FuseSvgIcon>heroicons-outline:exclamation-circle</FuseSvgIcon>
+                  <div className="ml-24 leading-6">
+                    {stringOperations.capitalizeWords(informe.state)}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-row">
+              {informe.tiporeunion_id && (
+                <div className="flex items-center">
+                  <FuseSvgIcon>heroicons-outline:tag</FuseSvgIcon>
+                  <div className="ml-24 leading-6">
+                    {getTiporeunionById(informe.tiporeunion_id)}
                   </div>
                 </div>
               )}

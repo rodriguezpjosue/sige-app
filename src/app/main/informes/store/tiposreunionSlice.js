@@ -13,7 +13,7 @@ export const getTiposreunion = createAsyncThunk(
             sid: window.localStorage.getItem('session_id'),
             model: 'sige.informereunion.tipo',
             filter: `[('id', '!=',  None)]`,
-            fields: "[id', 'name']",
+            fields: "['id', 'name']",
           },
         },
       },

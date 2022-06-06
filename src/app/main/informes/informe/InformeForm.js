@@ -25,6 +25,7 @@ import {
 } from '../store/informeSlice';
 import { selectIntegrantes } from '../store/integrantesSlice';
 import { selectTiposreunion } from '../store/tiposreunionSlice';
+import { getInformes } from '../store/informesSlice';
 
 /**
  * Form Validation Schema
@@ -72,7 +73,9 @@ const InformeForm = (props) => {
   function onSubmit(data) {
     if (routeParams.id === 'new') {
       dispatch(addInforme(data)).then(({ payload }) => {
-        navigate(`/informes/${payload.id}`);
+        dispatch(getInformes()).then(() => {
+          navigate(`/informes/${payload.id}`);
+        });
       });
     } else {
       dispatch(updateInforme(data));

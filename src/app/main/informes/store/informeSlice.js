@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import history from '@history';
+import { showMessage } from 'app/store/fuse/messageSlice';
 import InformeModel from '../model/InformeModel';
 import StringOperations from '../../../shared-components/stringOperations';
 
@@ -78,8 +79,15 @@ export const addInforme = createAsyncThunk(
       }
     );
 
-    const data = await response.data;
-    return data.result.data;
+    const informeData = await response.data;
+    let mensaje = ``;
+    if (informeData.result.status === 200) {
+      mensaje = 'Informe creado satisfactoriamente.';
+    } else {
+      mensaje = 'Hubo un error al crear el informe.';
+    }
+    dispatch(showMessage({ message: mensaje }));
+    return informeData.result.data;
   }
 );
 
@@ -113,13 +121,20 @@ export const updateInforme = createAsyncThunk(
       }
     );
 
-    const data = await response.data;
-    const informeEdited = data.result.data;
-    const asistentesIds = informeEdited.asistentes_ids;
-    informeEdited.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
-    const fechareunion = StringOperations.getLocaleDateTime(informeEdited.fechareunion);
-    informeEdited.fechareunion = StringOperations.setDateTimeString(fechareunion);
-    return informeEdited;
+    const informeData = await response.data;
+    const { status, data } = informeData.result;
+    let mensaje = ``;
+    if (status === 200) {
+      mensaje = 'Informe actualizado satisfactoriamente.';
+    } else {
+      mensaje = 'Hubo un error al actualizar el informe.';
+    }
+    const asistentesIds = data.asistentes_ids;
+    data.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
+    const fechareunion = StringOperations.getLocaleDateTime(data.fechareunion);
+    data.fechareunion = StringOperations.setDateTimeString(fechareunion);
+    dispatch(showMessage({ message: mensaje }));
+    return data;
   }
 );
 
@@ -130,14 +145,12 @@ export const procesoOficinaInforme = createAsyncThunk(
       'rest',
       {
         params: {
-          endpoint: 'write',
+          endpoint: 'exec_workflow',
           args: {
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'sige.informereunion',
             id: informeId,
-            vals: {
-              state: 'pendiente',
-            },
+            method: 'boton_pendiente',
             fields:
               "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
           },
@@ -149,6 +162,13 @@ export const procesoOficinaInforme = createAsyncThunk(
     );
 
     const data = await response.data;
+    let mensaje = ``;
+    if (data.result.status === 200) {
+      mensaje = 'El informe ha sido enviado para su proceso en la Oficina de Redes.';
+    } else {
+      mensaje = 'Hubo un error al procesar el informe.';
+    }
+    dispatch(showMessage({ message: mensaje }));
     const informeEdited = data.result.data;
     const asistentesIds = informeEdited.asistentes_ids;
     informeEdited.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
@@ -160,12 +180,27 @@ export const procesoOficinaInforme = createAsyncThunk(
 
 export const removeInforme = createAsyncThunk(
   'contactsApp/informes/removeInforme',
-  async (id, { dispatch, getState }) => {
-    const response = await axios.delete(`/api/informes/${id}`);
+  async (informeId, { dispatch, getState }) => {
+    const response = await axios.post(
+      'rest',
+      {
+        params: {
+          endpoint: 'unlink',
+          args: {
+            sid: window.localStorage.getItem('session_id'), // session_id
+            model: 'sige.informereunion',
+            id: informeId,
+          },
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
     await response.data;
 
-    return id;
+    return informeId;
   }
 );
 
