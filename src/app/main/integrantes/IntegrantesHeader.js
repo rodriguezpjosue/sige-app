@@ -63,16 +63,6 @@ function ContactsHeader(props) {
             onChange={(ev) => dispatch(setContactsSearchText(ev))}
           />
         </Box>
-        <Button
-          className="mx-8"
-          variant="contained"
-          color="secondary"
-          component={NavLinkAdapter}
-          to="new/edit"
-        >
-          <FuseSvgIcon size={20}>heroicons-outline:plus</FuseSvgIcon>
-          <span className="mx-8">Agregar</span>
-        </Button>
       </div>
     </div>
   );

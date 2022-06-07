@@ -23,6 +23,7 @@ const ContactView = () => {
   const tags = useSelector(selectTags);
   const routeParams = useParams();
   const dispatch = useDispatch();
+  const whiteSpace = ` `;
 
   useEffect(() => {
     dispatch(getContact(routeParams.id));
@@ -83,7 +84,9 @@ const ContactView = () => {
           </div>
 
           <Typography className="mt-12 text-4xl font-bold truncate">
-            {stringOperations.capitalizeWords(contact.name)}
+            {stringOperations.capitalizeWords(contact.nombre1) +
+              whiteSpace +
+              stringOperations.capitalizeWords(contact.apellido_paterno)}
           </Typography>
 
           <div className="flex flex-wrap items-center mt-8">

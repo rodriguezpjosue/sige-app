@@ -16,7 +16,7 @@ export const getContact = createAsyncThunk(
               sid: window.localStorage.getItem('session_id'), // session_id
               model: 'res.partner',
               filter: `[('id', '=',  ${id})]`, // red_id
-              fields: "['mobile', 'email', 'image_small', 'cursos', 'profesion_id', 'lugar_trabajo', 'fecha_nacimiento', 'street']",
+              fields: "['mobile', 'email', 'image_small', 'cursos', 'profesion_id', 'lugar_trabajo', 'fecha_nacimiento', 'street', 'apellido_paterno', 'apellido_materno', 'nombre1', 'nombre2']",
             },
           },
         },

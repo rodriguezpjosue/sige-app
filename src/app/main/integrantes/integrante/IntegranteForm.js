@@ -25,10 +25,6 @@ import {
   selectContact,
   updateContact,
 } from '../store/integranteSlice';
-import { selectCountries } from '../store/countriesSlice';
-import { selectTags } from '../store/tagsSlice';
-import IntegranteEmailSelector from './email-selector/IntegranteEmailSelector';
-import PhoneNumberSelector from './phone-number-selector/PhoneNumberSelector';
 
 /**
  * Form Validation Schema
@@ -39,8 +35,6 @@ const schema = yup.object().shape({
 
 const ContactForm = (props) => {
   const contact = useSelector(selectContact);
-  const countries = useSelector(selectCountries);
-  const tags = useSelector(selectTags);
   const routeParams = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,10 +59,6 @@ const ContactForm = (props) => {
   useEffect(() => {
     reset({ ...contact });
   }, [contact, reset]);
-
-  function getCountryByIso(iso) {
-    return countries.find((country) => country.iso === iso);
-  }
 
   /**
    * Form Submit
@@ -95,27 +85,15 @@ const ContactForm = (props) => {
 
   return (
     <>
-      <Box
-        className="relative w-full h-160 sm:h-192 px-32 sm:px-48"
-        sx={{
-          backgroundColor: 'background.default',
-        }}
+      <div
+        className="relative flex flex-col flex-auto items-center px-24 sm:px-48"
+        style={{ paddingTop: '4.8em' }}
       >
-        {contact.background && (
-          <img
-            className="absolute inset-0 object-cover w-full h-full"
-            src={contact.background}
-            alt="user background"
-          />
-        )}
-      </Box>
-
-      <div className="relative flex flex-col flex-auto items-center px-24 sm:px-48">
         <div className="w-full">
           <div className="flex flex-auto items-end -mt-64">
             <Controller
               control={control}
-              name="avatar"
+              name="image_small"
               render={({ field: { onChange, value } }) => (
                 <Box
                   sx={{
@@ -177,7 +155,7 @@ const ContactForm = (props) => {
                       color: 'text.secondary',
                     }}
                     className="object-cover w-full h-full text-64 font-bold"
-                    src={value}
+                    src={value.includes('data:image') ? value : `data:image/png;base64,${value}`}
                     alt={contact.name}
                   >
                     {contact.name.charAt(0)}
@@ -190,13 +168,13 @@ const ContactForm = (props) => {
 
         <Controller
           control={control}
-          name="name"
+          name="nombre1"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Name"
-              placeholder="Name"
+              label="Primer nombre"
+              placeholder="Primer nombre"
               id="name"
               error={!!errors.name}
               helperText={errors?.name?.message}
@@ -216,49 +194,23 @@ const ContactForm = (props) => {
 
         <Controller
           control={control}
-          name="tags"
-          render={({ field: { onChange, value } }) => (
-            <Autocomplete
-              multiple
-              id="tags"
-              className="mt-32"
-              options={tags}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.title}
-              renderOption={(_props, option, { selected }) => (
-                <li {..._props}>
-                  <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                  {option.title}
-                </li>
-              )}
-              value={value ? value.map((id) => _.find(tags, { id })) : []}
-              onChange={(event, newValue) => {
-                onChange(newValue.map((item) => item.id));
-              }}
-              fullWidth
-              renderInput={(params) => <TextField {...params} label="Tags" placeholder="Tags" />}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="title"
+          name="nombre2"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Title"
-              placeholder="Job title"
-              id="title"
-              error={!!errors.title}
-              helperText={errors?.title?.message}
+              label="Segundo nombre"
+              placeholder="Segundo nombre"
+              id="name"
+              error={!!errors.name}
+              helperText={errors?.name?.message}
               variant="outlined"
+              required
               fullWidth
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:briefcase</FuseSvgIcon>
+                    <FuseSvgIcon size={20}>heroicons-solid:user-circle</FuseSvgIcon>
                   </InputAdornment>
                 ),
               }}
@@ -268,50 +220,92 @@ const ContactForm = (props) => {
 
         <Controller
           control={control}
-          name="company"
+          name="apellido_paterno"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Company"
-              placeholder="Company"
-              id="company"
-              error={!!errors.company}
-              helperText={errors?.company?.message}
+              label="Apellido paterno"
+              placeholder="Apellido paterno"
+              id="apellido_paterno"
+              error={!!errors.name}
+              helperText={errors?.name?.message}
               variant="outlined"
+              required
               fullWidth
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:office-building</FuseSvgIcon>
+                    <FuseSvgIcon size={20}>heroicons-solid:user-circle</FuseSvgIcon>
                   </InputAdornment>
                 ),
               }}
             />
           )}
         />
-        <Controller
-          control={control}
-          name="emails"
-          render={({ field }) => <IntegranteEmailSelector className="mt-32" {...field} />}
-        />
 
         <Controller
           control={control}
-          name="phoneNumbers"
-          render={({ field }) => <PhoneNumberSelector className="mt-32" {...field} />}
-        />
-
-        <Controller
-          control={control}
-          name="address"
+          name="apellido_materno"
           render={({ field }) => (
             <TextField
               className="mt-32"
               {...field}
-              label="Address"
-              placeholder="Address"
-              id="address"
+              label="Apellido materno"
+              placeholder="Apellido materno"
+              id="apellido_materno"
+              error={!!errors.name}
+              helperText={errors?.name?.message}
+              variant="outlined"
+              required
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FuseSvgIcon size={20}>heroicons-solid:user-circle</FuseSvgIcon>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="mobile"
+          render={({ field }) => (
+            <TextField
+              className="mt-32"
+              {...field}
+              label="Celular"
+              placeholder="Celular"
+              id="mobile"
+              error={!!errors.name}
+              helperText={errors?.name?.message}
+              variant="outlined"
+              required
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FuseSvgIcon size={20}>heroicons-solid:phone</FuseSvgIcon>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="street"
+          render={({ field }) => (
+            <TextField
+              className="mt-32"
+              {...field}
+              label="Dirección"
+              placeholder="Dirección"
+              id="street"
               error={!!errors.address}
               helperText={errors?.address?.message}
               variant="outlined"
@@ -328,7 +322,7 @@ const ContactForm = (props) => {
         />
         <Controller
           control={control}
-          name="birthday"
+          name="fecha_nacimiento"
           render={({ field }) => (
             <DateTimePicker
               {...field}
@@ -339,8 +333,8 @@ const ContactForm = (props) => {
                 <TextField
                   {..._props}
                   className="mt-32"
-                  id="birthday"
-                  label="Birthday"
+                  id="fecha_nacimiento"
+                  label="Fecha de nacimiento"
                   type="date"
                   InputLabelProps={{
                     shrink: true,
@@ -359,47 +353,14 @@ const ContactForm = (props) => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name="notes"
-          render={({ field }) => (
-            <TextField
-              className="mt-32"
-              {...field}
-              label="Notes"
-              placeholder="Notes"
-              id="notes"
-              error={!!errors.notes}
-              helperText={errors?.notes?.message}
-              variant="outlined"
-              fullWidth
-              multiline
-              minRows={5}
-              maxRows={10}
-              InputProps={{
-                className: 'max-h-min h-min items-start',
-                startAdornment: (
-                  <InputAdornment className="mt-16" position="start">
-                    <FuseSvgIcon size={20}>heroicons-solid:menu-alt-2</FuseSvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
       </div>
 
       <Box
         className="flex items-center mt-40 py-14 pr-16 pl-4 sm:pr-48 sm:pl-36 border-t"
         sx={{ backgroundColor: 'background.default' }}
       >
-        {routeParams.id !== 'new' && (
-          <Button color="error" onClick={handleRemoveContact}>
-            Delete
-          </Button>
-        )}
         <Button className="ml-auto" component={NavLinkAdapter} to={-1}>
-          Cancel
+          Cancelar
         </Button>
         <Button
           className="ml-8"
@@ -408,7 +369,7 @@ const ContactForm = (props) => {
           disabled={_.isEmpty(dirtyFields) || !isValid}
           onClick={handleSubmit(onSubmit)}
         >
-          Save
+          Guardar
         </Button>
       </Box>
     </>

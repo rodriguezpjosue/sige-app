@@ -87,6 +87,7 @@ export const addInforme = createAsyncThunk(
       mensaje = 'Hubo un error al crear el informe.';
     }
     dispatch(showMessage({ message: mensaje }));
+    informeData.result.data.tiporeunion_id = informeData.result.data.tiporeunion_id[0].id;
     return informeData.result.data;
   }
 );
@@ -133,6 +134,7 @@ export const updateInforme = createAsyncThunk(
     data.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
     const fechareunion = StringOperations.getLocaleDateTime(data.fechareunion);
     data.fechareunion = StringOperations.setDateTimeString(fechareunion);
+    data.tiporeunion_id = data.tiporeunion_id[0].id;
     dispatch(showMessage({ message: mensaje }));
     return data;
   }

@@ -52,7 +52,7 @@ const InformeView = () => {
   return (
     <>
       <div className="relative flex flex-col flex-auto items-center p-24 pt-0 sm:p-48 sm:pt-0">
-        <div className="w-full max-w-3xl" style={{ paddingTop: '2.4em' }}>
+        <div className="w-full max-w-3xl" style={{ paddingTop: '3.0em' }}>
           {informe.state === 'draft' && (
             <div className="flex flex-auto items-end">
               <div className="flex items-center ml-auto mb-4">

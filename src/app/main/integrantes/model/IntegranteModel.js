@@ -2,17 +2,17 @@ import _ from '@lodash';
 
 const ContactModel = (data) =>
   _.defaults(data || {}, {
-    avatar: null,
-    background: null,
+    image_small: '',
+    mobile: null,
     name: '',
-    emails: [{ email: '', label: '' }],
-    phoneNumbers: [{ country: 'us', phoneNumber: '', label: '' }],
-    title: '',
+    apellido_paterno: '',
+    apellido_materno: '',
+    nombre1: '',
+    nombre2: '',
+    email: '',
     company: '',
-    birthday: null,
-    address: '',
-    notes: '',
-    tags: [],
+    fecha_nacimiento: null,
+    street: '',
   });
 
 export default ContactModel;

@@ -67,6 +67,10 @@ const InformeForm = (props) => {
     return integrantes.find((integrante) => integrante.id === id);
   }
 
+  function getTiporeunionById(id) {
+    return tiposreunion.find((tiporeunion) => tiporeunion.id === id);
+  }
+
   /**
    * Form Submit
    */
@@ -158,6 +162,41 @@ const InformeForm = (props) => {
             />
           )}
         />
+
+        {tiposreunion.length > 0 && (
+          <Controller
+            control={control}
+            name="tiporeunion_id"
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
+                id="tiporeunion_id"
+                className="mt-32"
+                options={tiposreunion}
+                disableCloseOnSelect
+                getOptionLabel={(option) => (option ? option.name : '')}
+                renderOption={(_props, option, { selected }) => (
+                  <li {..._props} key={option.id}>
+                    <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                    {option.name}
+                  </li>
+                )}
+                value={value ? getTiporeunionById(value) : ``}
+                onChange={(event, newValue) => {
+                  onChange(newValue.id);
+                }}
+                fullWidth
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    required
+                    label="Tipo de reunión"
+                    placeholder="Tipo de reunión"
+                  />
+                )}
+              />
+            )}
+          />
+        )}
 
         {integrantes.length > 0 && (
           <Controller
