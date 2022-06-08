@@ -213,7 +213,7 @@ const InformeForm = (props) => {
                 renderOption={(_props, option, { selected }) => (
                   <li {..._props} key={option.id}>
                     <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                    {option.name}
+                    {option.nombre1} {option.apellido_paterno}
                   </li>
                 )}
                 value={value ? value.map((id) => _.find(integrantes, { id })) : []}

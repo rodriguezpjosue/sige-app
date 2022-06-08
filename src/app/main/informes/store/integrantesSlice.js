@@ -13,7 +13,7 @@ export const getIntegrantes = createAsyncThunk(
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'res.partner',
             filter: `[('red_id', '=', ${window.localStorage.getItem('red_id')})]`, // red_id
-            fields: "['id', 'name']",
+            fields: "['id', 'name', 'apellido_paterno', 'apellido_materno', 'nombre1', 'nombre2']",
           },
         },
       },

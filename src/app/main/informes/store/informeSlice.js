@@ -81,12 +81,15 @@ export const addInforme = createAsyncThunk(
 
     const informeData = await response.data;
     let mensaje = ``;
+    let variante = ``;
     if (informeData.result.status === 200) {
       mensaje = 'Informe creado satisfactoriamente.';
+      variante = 'success';
     } else {
       mensaje = 'Hubo un error al crear el informe.';
+      variante = 'error';
     }
-    dispatch(showMessage({ message: mensaje }));
+    dispatch(showMessage({ message: mensaje, variant: variante }));
     informeData.result.data.tiporeunion_id = informeData.result.data.tiporeunion_id[0].id;
     return informeData.result.data;
   }
@@ -125,17 +128,20 @@ export const updateInforme = createAsyncThunk(
     const informeData = await response.data;
     const { status, data } = informeData.result;
     let mensaje = ``;
+    let variante = ``;
     if (status === 200) {
       mensaje = 'Informe actualizado satisfactoriamente.';
+      variante = 'success';
     } else {
       mensaje = 'Hubo un error al actualizar el informe.';
+      variante = 'error';
     }
     const asistentesIds = data.asistentes_ids;
     data.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
     const fechareunion = StringOperations.getLocaleDateTime(data.fechareunion);
     data.fechareunion = StringOperations.setDateTimeString(fechareunion);
     data.tiporeunion_id = data.tiporeunion_id[0].id;
-    dispatch(showMessage({ message: mensaje }));
+    dispatch(showMessage({ message: mensaje, variant: variante }));
     return data;
   }
 );
@@ -165,12 +171,15 @@ export const procesoOficinaInforme = createAsyncThunk(
 
     const data = await response.data;
     let mensaje = ``;
+    let variante = ``;
     if (data.result.status === 200) {
       mensaje = 'El informe ha sido enviado para su proceso en la Oficina de Redes.';
+      variante = 'success';
     } else {
       mensaje = 'Hubo un error al procesar el informe.';
+      variante = 'error';
     }
-    dispatch(showMessage({ message: mensaje }));
+    dispatch(showMessage({ message: mensaje, variant: variante }));
     const informeEdited = data.result.data;
     const asistentesIds = informeEdited.asistentes_ids;
     informeEdited.asistentes_ids = asistentesIds.map((asistente) => asistente.id);

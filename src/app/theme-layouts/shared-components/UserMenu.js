@@ -72,27 +72,9 @@ function UserMenu(props) {
               </ListItemIcon>
               <ListItemText primary="Ingresar" />
             </MenuItem>
-            <MenuItem component={Link} to="/sign-up" role="button">
-              <ListItemIcon className="min-w-40">
-                <FuseSvgIcon>heroicons-outline:user-add </FuseSvgIcon>
-              </ListItemIcon>
-              <ListItemText primary="Registrarse" />
-            </MenuItem>
           </>
         ) : (
           <>
-            <MenuItem component={Link} to="/apps/profile" onClick={userMenuClose} role="button">
-              <ListItemIcon className="min-w-40">
-                <FuseSvgIcon>heroicons-outline:user-circle</FuseSvgIcon>
-              </ListItemIcon>
-              <ListItemText primary="Mi perfil" />
-            </MenuItem>
-            <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
-              <ListItemIcon className="min-w-40">
-                <FuseSvgIcon>heroicons-outline:mail-open</FuseSvgIcon>
-              </ListItemIcon>
-              <ListItemText primary="Bandeja de mensajes" />
-            </MenuItem>
             <MenuItem
               component={NavLink}
               to="/sign-out"

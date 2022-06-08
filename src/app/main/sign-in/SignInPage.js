@@ -78,12 +78,6 @@ function SignInPage() {
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Ingresar
           </Typography>
-          <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
-            <Link className="ml-4" to="/sign-up">
-              Sign up
-            </Link>
-          </div>
 
           <form
             name="loginForm"
@@ -135,7 +129,7 @@ function SignInPage() {
                 render={({ field }) => (
                   <FormControl>
                     <FormControlLabel
-                      label="Remember me"
+                      label="Recordar"
                       control={<Checkbox size="small" {...field} />}
                     />
                   </FormControl>
@@ -143,7 +137,7 @@ function SignInPage() {
               />
 
               <Link className="text-md font-medium" to="/pages/auth/forgot-password">
-                Forgot password?
+                ¿Olvidaste tu contraseña?
               </Link>
             </div>
 
@@ -158,32 +152,6 @@ function SignInPage() {
             >
               Ingresar
             </Button>
-
-            <div className="flex items-center mt-32">
-              <div className="flex-auto mt-px border-t" />
-              <Typography className="mx-8" color="text.secondary">
-                Or continue with
-              </Typography>
-              <div className="flex-auto mt-px border-t" />
-            </div>
-
-            <div className="flex items-center mt-32 space-x-16">
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:facebook
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:twitter
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:github
-                </FuseSvgIcon>
-              </Button>
-            </div>
           </form>
         </div>
       </Paper>

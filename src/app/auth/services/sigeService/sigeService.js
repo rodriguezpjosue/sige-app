@@ -54,7 +54,7 @@ class SIGEService extends FuseUtils.EventEmitter {
     }
   };
   */
- 
+
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
       axios
@@ -136,12 +136,19 @@ class SIGEService extends FuseUtils.EventEmitter {
         )
         .then((response) => {
           response = response.data.result;
-          if (response.data.user) {
-            this.setSession(response.data.access_token, response.data.user.data);
-            resolve(response.data.user);
-            this.emit('onLogin', response.data.user);
+          if (response.status === 200) {
+            if (response.data.user) {
+              this.setSession(response.data.access_token, response.data.user.data);
+              resolve(response.data.user);
+              this.emit('onLogin', response.data.user);
+            } else {
+              reject(response.data.error);
+            }
           } else {
-            reject(response.data.error);
+            reject([
+              { type: 'username', message: 'Usuario o contraseña incorrecto.' },
+              { type: 'password', message: 'Usuario o contraseña incorrecto.' },
+            ]);
           }
         });
     });
