@@ -16,7 +16,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import Checkbox from '@mui/material/Checkbox/Checkbox';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import es from 'date-fns/locale/es';
 import {
   addContact,
   getContact,
@@ -108,7 +111,7 @@ const ContactForm = (props) => {
                     <div>
                       <label htmlFor="button-avatar" className="flex p-8 cursor-pointer">
                         <input
-                          accept="image/*"
+                          accept="image/png"
                           className="hidden"
                           id="button-avatar"
                           type="file"
@@ -324,11 +327,13 @@ const ContactForm = (props) => {
           control={control}
           name="fecha_nacimiento"
           render={({ field }) => (
-            <DateTimePicker
+            <DatePicker
               {...field}
               className="mt-8 mb-16 w-full"
               clearable
               showTodayButton
+              inputFormat="yyyy-MM-dd"
+              format="yyyy-MM-dd"
               renderInput={(_props) => (
                 <TextField
                   {..._props}

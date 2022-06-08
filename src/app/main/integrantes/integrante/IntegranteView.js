@@ -78,7 +78,7 @@ const ContactView = () => {
             <div className="flex items-center ml-auto mb-4">
               <Button variant="contained" color="secondary" component={NavLinkAdapter} to="edit">
                 <FuseSvgIcon size={20}>heroicons-outline:pencil-alt</FuseSvgIcon>
-                <span className="mx-8">Edit</span>
+                <span className="mx-8">Editar</span>
               </Button>
             </div>
           </div>
@@ -137,7 +137,7 @@ const ContactView = () => {
               <div className="flex items-center">
                 <FuseSvgIcon>heroicons-outline:cake</FuseSvgIcon>
                 <div className="ml-24 leading-6">
-                  {format(new Date(contact.fecha_nacimiento), 'MMMM d, y')}
+                  {format(new Date(contact.fecha_nacimiento), 'dd/MM/yyyy')}
                 </div>
               </div>
             )}

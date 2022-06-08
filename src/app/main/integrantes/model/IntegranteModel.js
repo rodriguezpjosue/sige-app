@@ -10,7 +10,6 @@ const ContactModel = (data) =>
     nombre1: '',
     nombre2: '',
     email: '',
-    company: '',
     fecha_nacimiento: null,
     street: '',
   });
