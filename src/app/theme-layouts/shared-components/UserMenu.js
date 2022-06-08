@@ -70,13 +70,13 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:lock-closed</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign In" />
+              <ListItemText primary="Ingresar" />
             </MenuItem>
             <MenuItem component={Link} to="/sign-up" role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-add </FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign up" />
+              <ListItemText primary="Registrarse" />
             </MenuItem>
           </>
         ) : (
@@ -85,13 +85,13 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-circle</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="My Profile" />
+              <ListItemText primary="Mi perfil" />
             </MenuItem>
             <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:mail-open</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="Bandeja de mensajes" />
             </MenuItem>
             <MenuItem
               component={NavLink}
@@ -103,7 +103,7 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:logout</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign out" />
+              <ListItemText primary="Salir" />
             </MenuItem>
           </>
         )}

@@ -69,7 +69,7 @@ const ContactView = () => {
                 backgroundColor: 'background.default',
                 color: 'text.secondary',
               }}
-              className="w-128 h-128 text-64 font-bold"
+              className="object-cover w-128 h-128 text-64 font-bold"
               src={`data:image/png;base64,${contact.image_small}`}
               alt={contact.name}
             >

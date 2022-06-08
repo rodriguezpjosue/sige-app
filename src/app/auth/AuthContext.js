@@ -15,7 +15,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     sigeService.on('onAutoLogin', () => {
-      dispatch(showMessage({ message: 'Signing in with JWT' }));
+      dispatch(showMessage({ message: 'Bienvenido nuevamente' }));
 
       /**
        * Sign in and retrieve user data with stored token
@@ -23,7 +23,7 @@ function AuthProvider({ children }) {
       sigeService
         .signInWithToken()
         .then((user) => {
-          success(user, 'Signed in with JWT');
+          success(user, 'Bienvenido nuevamente');
         })
         .catch((error) => {
           pass(error.message);
@@ -31,11 +31,11 @@ function AuthProvider({ children }) {
     });
 
     sigeService.on('onLogin', (user) => {
-      success(user, 'Signed in');
+      success(user, 'Bienvenido');
     });
 
     sigeService.on('onLogout', () => {
-      pass('Signed out');
+      pass('Hasta pronto');
       dispatch(logoutUser());
     });
 

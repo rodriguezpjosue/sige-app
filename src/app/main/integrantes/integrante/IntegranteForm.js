@@ -111,7 +111,7 @@ const ContactForm = (props) => {
                     <div>
                       <label htmlFor="button-avatar" className="flex p-8 cursor-pointer">
                         <input
-                          accept="image/png"
+                          accept="image/*"
                           className="hidden"
                           id="button-avatar"
                           type="file"
@@ -125,7 +125,8 @@ const ContactForm = (props) => {
                                 const reader = new FileReader();
 
                                 reader.onload = () => {
-                                  resolve(`data:${file.type};base64,${btoa(reader.result)}`);
+                                  // resolve(`data:${file.type};base64,${btoa(reader.result)}`);
+                                  resolve(`data:image/png;base64,${btoa(reader.result)}`);
                                 };
 
                                 reader.onerror = reject;

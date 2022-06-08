@@ -11,36 +11,30 @@ i18next.addResourceBundle('es', 'navigation', es);
 
 const navigationConfig = [
   {
-    id: 'example-component',
-    title: 'Example',
-    translate: 'EXAMPLE',
-    type: 'item',
-    icon: 'heroicons-outline:star',
-    url: 'example',
-  },
-  {
-    id: 'informes-reunion',
+    id: 'redes-group',
     title: 'Redes',
+    subtitle: 'Informes de reunión, integrantes de la red.',
+    type: 'group',
+    icon: 'heroicons-outline:home',
     translate: 'REDES',
-    type: 'item',
-    icon: 'heroicons-outline:star',
-    url: 'redes',
-  },
-  {
-    id: 'integrantes-redes',
-    title: 'Integrantes',
-    translate: 'INTEGRANTES',
-    type: 'item',
-    icon: 'heroicons-outline:user-group',
-    url: 'integrantes',
-  },
-  {
-    id: 'informes-redes',
-    title: 'Informes',
-    translate: 'INFORMES',
-    type: 'item',
-    icon: 'heroicons-outline:document-text',
-    url: 'informes',
+    children: [
+      {
+        id: 'integrantes-redes',
+        title: 'Integrantes',
+        translate: 'INTEGRANTES',
+        type: 'item',
+        icon: 'heroicons-outline:user-group',
+        url: 'integrantes',
+      },
+      {
+        id: 'informes-redes',
+        title: 'Informes',
+        translate: 'INFORMES',
+        type: 'item',
+        icon: 'heroicons-outline:document-text',
+        url: 'informes',
+      },
+    ],
   },
 ];
 

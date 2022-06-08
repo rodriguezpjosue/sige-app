@@ -64,8 +64,6 @@ function ToolbarLayout1(props) {
           </div>
 
           <div className="flex items-center px-8 h-full overflow-x-auto">
-            <LanguageSwitcher />
-
             <AdjustFontSize />
 
             <FullScreenToggle />
@@ -75,10 +73,6 @@ function ToolbarLayout1(props) {
             <Hidden lgUp>
               <ChatPanelToggleButton />
             </Hidden>
-
-            <QuickPanelToggleButton />
-
-            <NotificationPanelToggleButton />
 
             <UserMenu />
           </div>
