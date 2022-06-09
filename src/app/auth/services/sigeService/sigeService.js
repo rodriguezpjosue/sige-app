@@ -155,7 +155,7 @@ class SIGEService extends FuseUtils.EventEmitter {
     });
   };
 
-  requestResetPassword = (user) => {
+  requestResetPasswordMail = (user) => {
     return new Promise((resolve, reject) => {
       axios
         .post(sigeServiceConfig.passwordReset, {

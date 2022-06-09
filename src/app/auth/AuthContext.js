@@ -52,7 +52,7 @@ function AuthProvider({ children }) {
     sigeService.on('onPasswordResetLink', () => {
       dispatch(
         showMessage({
-          message: 'Revise su correo electrónico y siga las instrucciones que allí se indican. ',
+          message: 'Revise su correo electrónico y siga las instrucciones que allí se indican.',
           variant: 'success',
           autoHideDuration: 6000,
         })

@@ -32,7 +32,7 @@ function ClassicForgotPasswordPage() {
 
   function onSubmit({ username }) {
     sigeService
-      .requestResetPassword(username)
+      .requestResetPasswordMail(username)
       .then((data) => {
         console.log(data);
       })
