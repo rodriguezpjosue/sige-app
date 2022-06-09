@@ -7,7 +7,9 @@ import * as yup from 'yup';
 import _ from '@lodash';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import sigeService from '../../auth/services/sigeService';
+ 
 /**
  * Form Validation Schema
  */
@@ -20,7 +22,7 @@ const defaultValues = {
 };
 
 function ClassicForgotPasswordPage() {
-  const { control, formState, handleSubmit, reset } = useForm({
+  const { control, formState, handleSubmit, reset, setError } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
@@ -28,8 +30,15 @@ function ClassicForgotPasswordPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  function onSubmit() {
-    reset(defaultValues);
+  function onSubmit({ username }) {
+    sigeService
+      .requestResetPassword(username)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((_errors) => {
+        console.log(_errors);
+      });
   }
 
   return (

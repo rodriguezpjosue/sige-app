@@ -145,10 +145,36 @@ class SIGEService extends FuseUtils.EventEmitter {
               reject(response.data.error);
             }
           } else {
+            // eslint-disable-next-line prefer-promise-reject-errors
             reject([
               { type: 'username', message: 'Usuario o contraseña incorrecto.' },
               { type: 'password', message: 'Usuario o contraseña incorrecto.' },
             ]);
+          }
+        });
+    });
+  };
+
+  requestResetPassword = (user) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(sigeServiceConfig.passwordReset, {
+          params: {
+            endpoint: 'reset_link',
+            args: {
+              db: 'sige8',
+              username: user,
+            },
+          },
+        })
+        .then((response) => {
+          response = response.data.result;
+          if (response.status === 200) {
+            resolve(response.data);
+            this.emit('onPasswordResetLink');
+          } else {
+            // eslint-disable-next-line prefer-promise-reject-errors
+            reject([{ type: 'username', message: 'No se pudo procesar la solicitud.' }]);
           }
         });
     });

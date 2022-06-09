@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
+import { Navigate } from 'react-router-dom';
 import sigeService from './services/sigeService';
 
 const AuthContext = React.createContext();
@@ -46,6 +47,19 @@ function AuthProvider({ children }) {
 
     sigeService.on('onNoAccessToken', () => {
       pass();
+    });
+
+    sigeService.on('onPasswordResetLink', () => {
+      dispatch(
+        showMessage({
+          message: 'Revise su correo electrónico y siga las instrucciones que allí se indican. ',
+          variant: 'success',
+          autoHideDuration: 6000,
+        })
+      );
+      setTimeout(() => {
+        window.location = '/';
+      }, 3000);
     });
 
     sigeService.init();

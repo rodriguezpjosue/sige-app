@@ -3,6 +3,7 @@ const sigeServiceConfig = {
   signUp: 'rest',
   accessToken: 'rest',
   updateUser: 'rest',
+  passwordReset: 'rest',
 };
 
 export default sigeServiceConfig;
