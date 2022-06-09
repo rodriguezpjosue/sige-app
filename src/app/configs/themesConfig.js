@@ -30,9 +30,12 @@ const themesConfig = {
         contrastText: darkPaletteText.primary,
       },
       secondary: {
-        light: '#818cf8',
-        main: '#4f46e5',
-        dark: '#3730a3',
+        // light: '#818cf8',
+        // main: '#4f46e5',
+        // dark: '#3730a3',
+        light: '#5498ed',
+        main: '#3574cb',
+        dark: '#214d89',
         contrastText: darkPaletteText.primary,
       },
       background: {
@@ -65,9 +68,12 @@ const themesConfig = {
         contrastText: darkPaletteText.primary,
       },
       secondary: {
-        light: '#818cf8',
-        main: '#4f46e5',
-        dark: '#3730a3',
+        // light: '#818cf8',
+        // main: '#4f46e5',
+        // dark: '#3730a3',
+        light: '#5498ed',
+        main: '#3574cb',
+        dark: '#214d89',
         contrastText: darkPaletteText.primary,
       },
       background: {

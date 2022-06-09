@@ -53,7 +53,7 @@ const ContactView = () => {
         ) : (
           <img
             className="absolute inset-0 object-cover w-full h-full"
-            src="https://react-material.fusetheme.com/assets/images/cards/14-640x480.jpg"
+            src="assets/images/background/fachada.jpg"
             alt="user background"
           />
         )}

@@ -45,21 +45,13 @@ function InformeListItem(props) {
       >
         <TableCell>
           {stringOperations.getLocaleDateTime(informe.fechareunion).toLocaleString()}
-        </TableCell>
-        <TableCell>{stringOperations.capitalizeFirst(informe.tema)}</TableCell>
-        <TableCell>
-          {informe.tiporeunion_id.length > 0 ? informe.tiporeunion_id[0].name : ``}
-        </TableCell>
-        <TableCell>
-          {informe.state && (
-            <Chip
-              key={informe.id}
-              label={stringOperations.capitalizeFirst(informe.state)}
-              className="mr-12 mb-12"
-              size="small"
-              color={getChipColor(informe.state)}
-            />
-          )}
+          <Chip
+            key={informe.id}
+            label={stringOperations.capitalizeFirst(informe.state)}
+            className="mr-12 mb-12"
+            size="small"
+            color={getChipColor(informe.state)}
+          />
         </TableCell>
         <TableCell>
           <Button
@@ -69,14 +61,12 @@ function InformeListItem(props) {
             to={`/informes/${informe.id}`}
           >
             <FuseSvgIcon size={20}>heroicons-outline:eye</FuseSvgIcon>
-            <span className="mx-8">Ver</span>
           </Button>
         </TableCell>
         <TableCell>
           {informe.state === 'draft' && (
             <Button variant="contained" color="secondary" onClick={handleProcesoOficinaInforme}>
               <FuseSvgIcon size={20}>heroicons-outline:arrow-sm-up</FuseSvgIcon>
-              <span className="mx-8">Procesar</span>
             </Button>
           )}
         </TableCell>

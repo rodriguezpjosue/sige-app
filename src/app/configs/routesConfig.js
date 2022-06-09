@@ -5,11 +5,20 @@ import settingsConfig from 'app/configs/settingsConfig';
 import SignInConfig from '../main/sign-in/SignInConfig';
 import SignUpConfig from '../main/sign-up/SignUpConfig';
 import SignOutConfig from '../main/sign-out/SignOutConfig';
-import Error404Page from '../main/404/Error404Page';
+import Error404Config from '../main/404/Error404Config';
 import IntegrantesAppConfig from '../main/integrantes/IntegrantesAppConfig';
 import InformesAppConfig from '../main/informes/InformesAppConfig';
+import ForgotPasswordPageConfig from '../main/forgot-password/ForgotPasswordPageConfig';
 
-const routeConfigs = [SignOutConfig, SignInConfig, SignUpConfig, IntegrantesAppConfig, InformesAppConfig];
+const routeConfigs = [
+  SignOutConfig,
+  SignInConfig,
+  SignUpConfig,
+  IntegrantesAppConfig,
+  InformesAppConfig,
+  Error404Config,
+  ForgotPasswordPageConfig,
+];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
@@ -32,10 +41,10 @@ const routes = [
     path: 'loading',
     element: <FuseLoading />,
   },
-  {
-    path: '404',
-    element: <Error404Page />,
-  },
+  // {
+  //  path: '404',
+  //  element: <Error404Page />,
+  // },
   {
     path: '*',
     element: <Navigate to="404" />,

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
+import { BrowserView, MobileView } from 'react-device-detect';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -12,6 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { selectFilteredInformes, selectGroupedFilteredInformes } from './store/informesSlice';
 import InformeRowItem from './InformeRowItem';
+import InformeRowItemMobile from './InformeRowItemMobile';
 
 function InformesTable(props) {
   const filteredData = useSelector(selectFilteredInformes);
@@ -48,25 +50,45 @@ function InformesTable(props) {
               </Typography>
               <Divider />
               <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table" key={key}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Fecha de reunión</TableCell>
-                        <TableCell>Tema</TableCell>
-                        <TableCell>Tipo reunión</TableCell>
-                        <TableCell>Situación</TableCell>
-                        <TableCell>&nbsp;</TableCell>
-                        <TableCell>&nbsp;</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {group.children.map((item) => (
-                        <InformeRowItem key={item.id} informe={item} />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                <BrowserView>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table" key={key}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Fecha de reunión</TableCell>
+                          <TableCell>Tema</TableCell>
+                          <TableCell>Tipo reunión</TableCell>
+                          <TableCell>Situación</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {group.children.map((item) => (
+                          <InformeRowItem key={item.id} informe={item} />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </BrowserView>
+                <MobileView>
+                  <TableContainer component={Paper}>
+                    <Table size="small" aria-label="a dense table" key={key}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Fecha de reunión</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {group.children.map((item) => (
+                          <InformeRowItemMobile key={item.id} informe={item} />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </MobileView>
               </Grid>
             </div>
           );

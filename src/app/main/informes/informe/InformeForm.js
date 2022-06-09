@@ -209,7 +209,9 @@ const InformeForm = (props) => {
                 className="mt-32"
                 options={integrantes}
                 disableCloseOnSelect
-                getOptionLabel={(option) => (option ? option.name : '')}
+                getOptionLabel={(option) =>
+                  option ? `${option.nombre1}${' '}${option.apellido_paterno}` : ''
+                }
                 renderOption={(_props, option, { selected }) => (
                   <li {..._props} key={option.id}>
                     <Checkbox style={{ marginRight: 8 }} checked={selected} />

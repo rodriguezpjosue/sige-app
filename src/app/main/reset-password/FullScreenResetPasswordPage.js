@@ -1,41 +1,34 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { useEffect } from 'react';
-import sigeService from '../../auth/services/sigeService';
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  username: yup.string().required('You must enter an user'),
   password: yup
     .string()
     .required('Please enter your password.')
-    .min(4, 'Password is too short - must be at least 4 chars.'),
+    .min(8, 'Password is too short - should be 8 chars minimum.'),
+  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 const defaultValues = {
-  username: '',
   password: '',
-  remember: true,
+  passwordConfirm: '',
 };
 
-function SignInPage() {
-  const { control, formState, handleSubmit, setError, setValue } = useForm({
+function FullScreenResetPasswordPage() {
+  const { control, formState, handleSubmit, reset } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
@@ -43,67 +36,27 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  useEffect(() => {
-    setValue('username', '42282407', { shouldDirty: true, shouldValidate: true });
-    setValue('password', '12345678', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
-
-  function onSubmit({ username, password }) {
-    sigeService
-      .signInWithUserAndPassword(username, password)
-      .then((user) => {
-        // No need to do anything, user data will be set at app/auth/AuthContext
-      })
-      .catch((_errors) => {
-        console.log(_errors);
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
-      });
+  function onSubmit() {
+    reset(defaultValues);
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
-      <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
+    <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
+      <Paper className="h-full sm:h-auto md:flex md:justify-end w-full sm:w-auto md:h-full py-32 px-16 sm:p-48 md:p-64 md:pt-96 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img
-            className="w-48"
-            src="assets/images/logo/isotipo_emmanuel_small_black.svg"
-            alt="logo"
-          />
+          <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Ingresar
+            Reset your password
           </Typography>
+          <Typography className="font-medium">Create a new password for your account</Typography>
 
           <form
-            name="loginForm"
+            name="registerForm"
             noValidate
             className="flex flex-col justify-center w-full mt-32"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Controller
-              name="username"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Usuario"
-                  autoFocus
-                  type="text"
-                  error={!!errors.username}
-                  helperText={errors?.username?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-
             <Controller
               name="password"
               control={control}
@@ -111,7 +64,7 @@ function SignInPage() {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Contraseña"
+                  label="Password"
                   type="password"
                   error={!!errors.password}
                   helperText={errors?.password?.message}
@@ -122,36 +75,42 @@ function SignInPage() {
               )}
             />
 
-            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
-              <Controller
-                name="remember"
-                control={control}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormControlLabel
-                      label="Recordar"
-                      control={<Checkbox size="small" {...field} />}
-                    />
-                  </FormControl>
-                )}
-              />
-
-              <Link className="text-md font-medium" to="/forgot-password">
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
+            <Controller
+              name="passwordConfirm"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Password (Confirm)"
+                  type="password"
+                  error={!!errors.passwordConfirm}
+                  helperText={errors?.passwordConfirm?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              )}
+            />
 
             <Button
               variant="contained"
               color="secondary"
-              className=" w-full mt-16"
-              aria-label="Sign in"
+              className=" w-full mt-4"
+              aria-label="Register"
               disabled={_.isEmpty(dirtyFields) || !isValid}
               type="submit"
               size="large"
             >
-              Ingresar
+              Reset your password
             </Button>
+
+            <Typography className="mt-32 text-md font-medium" color="text.secondary">
+              <span>Return to</span>
+              <Link className="ml-4" to="/sign-in">
+                sign in
+              </Link>
+            </Typography>
           </form>
         </div>
       </Paper>
@@ -237,4 +196,4 @@ function SignInPage() {
   );
 }
 
-export default SignInPage;
+export default FullScreenResetPasswordPage;

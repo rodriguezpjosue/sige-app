@@ -52,13 +52,13 @@ function InformesHeader(props) {
           </FuseSvgIcon>
 
           <Input
-            placeholder="Search informes"
+            placeholder="Buscar informes"
             className="flex flex-1 px-16"
             disableUnderline
             fullWidth
             value={searchText}
             inputProps={{
-              'aria-label': 'Search',
+              'aria-label': 'Buscar',
             }}
             onChange={(ev) => dispatch(setInformesSearchText(ev))}
           />
@@ -71,7 +71,7 @@ function InformesHeader(props) {
           to="new/edit"
         >
           <FuseSvgIcon size={20}>heroicons-outline:plus</FuseSvgIcon>
-          <span className="mx-8">Add</span>
+          <span className="mx-8">Crear</span>
         </Button>
       </div>
     </div>
