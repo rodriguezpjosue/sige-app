@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import history from '@history';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConfig';
 import ContactModel from '../model/IntegranteModel';
 
 export const getContact = createAsyncThunk(
@@ -9,7 +10,7 @@ export const getContact = createAsyncThunk(
   async (id, { dispatch, getState }) => {
     try {
       const response = await axios.post(
-        'rest',
+        sigeServiceConfig.uniqueEndpoint,
         {
           params: {
             endpoint: 'search_read',
@@ -63,7 +64,7 @@ export const updateContact = createAsyncThunk(
     values.street = contact.street;
     console.log(values);
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'write',
@@ -84,13 +85,15 @@ export const updateContact = createAsyncThunk(
 
     const contactData = await response.data;
     const { status, data } = contactData.result;
-    let mensaje = ``;
+    const mensaje = {};
     if (status === 200) {
-      mensaje = 'Contacto actualizado satisfactoriamente.';
+      mensaje.message = 'Contacto actualizado satisfactoriamente.';
+      mensaje.variant = 'success';
     } else {
-      mensaje = 'Hubo un error al actualizar el contacto.';
+      mensaje.message = 'Hubo un error al actualizar el contacto.';
+      mensaje.variant = 'error';
     }
-    dispatch(showMessage({ message: mensaje }));
+    dispatch(showMessage(mensaje));
     return data;
   }
 );

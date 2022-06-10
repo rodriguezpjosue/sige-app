@@ -6,14 +6,14 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import FuseUtils from '@fuse/utils';
+import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConfig';
 import { addInforme, removeInforme, updateInforme } from './informeSlice';
-import stringOperations from '../../../shared-components/stringOperations';
 
 export const getInformes = createAsyncThunk(
   'informesApp/informes/getInformes',
   async (params, { getState }) => {
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'search_read',

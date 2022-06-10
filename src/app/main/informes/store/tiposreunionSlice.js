@@ -1,11 +1,12 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConfig';
 
 export const getTiposreunion = createAsyncThunk(
   'informesApp/tiposreunion/getTiposreunion',
   async (params, { getState }) => {
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'search_read',

@@ -4,13 +4,14 @@ import history from '@history';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import InformeModel from '../model/InformeModel';
 import StringOperations from '../../../shared-components/stringOperations';
+import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';
 
 export const getInforme = createAsyncThunk(
   'informesApp/task/getInforme',
   async (id, { dispatch, getState }) => {
     try {
       const response = await axios.post(
-        'rest',
+        sigeServiceConfig.uniqueEndpoint,
         {
           params: {
             endpoint: 'search_read',
@@ -61,7 +62,7 @@ export const addInforme = createAsyncThunk(
     }
     informe.fechareunion = informe.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'create',
@@ -106,7 +107,7 @@ export const updateInforme = createAsyncThunk(
       informe.fechareunion = informe.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
     }
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'write',
@@ -150,7 +151,7 @@ export const procesoOficinaInforme = createAsyncThunk(
   'informesApp/informes/procesoOficinaInforme',
   async (informeId, { dispatch, getState }) => {
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'exec_workflow',
@@ -193,7 +194,7 @@ export const removeInforme = createAsyncThunk(
   'contactsApp/informes/removeInforme',
   async (informeId, { dispatch, getState }) => {
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'unlink',

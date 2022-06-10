@@ -6,13 +6,14 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import FuseUtils from '@fuse/utils';
+import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConfig';
 import { addContact, removeContact, updateContact } from './integranteSlice';
 
 export const getContacts = createAsyncThunk(
   'integrantesApp/integrantes/getContacts',
   async (params, { getState }) => {
     const response = await axios.post(
-      'rest',
+      sigeServiceConfig.uniqueEndpoint,
       {
         params: {
           endpoint: 'search_read',

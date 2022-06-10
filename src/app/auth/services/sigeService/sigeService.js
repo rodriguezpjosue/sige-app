@@ -59,7 +59,7 @@ class SIGEService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          sigeServiceConfig.accessToken,
+          sigeServiceConfig.uniqueEndpoint,
           {
             params: {
               endpoint: 'login_with_sid',
@@ -92,11 +92,11 @@ class SIGEService extends FuseUtils.EventEmitter {
   signInWithEmailAndPassword = (user, pass) => {
     return new Promise((resolve, reject) => {
       axios
-        .post(sigeServiceConfig.signIn, {
+        .post(sigeServiceConfig.uniqueEndpoint, {
           params: {
             endpoint: 'login',
             args: {
-              db: 'sige',
+              db: sigeServiceConfig.db,
               login: user,
               password: pass,
             },
@@ -119,12 +119,12 @@ class SIGEService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          sigeServiceConfig.signIn,
+          sigeServiceConfig.uniqueEndpoint,
           {
             params: {
               endpoint: 'login',
               args: {
-                db: 'sige8',
+                db: sigeServiceConfig.db,
                 login: user,
                 password: pass,
               },
@@ -158,7 +158,7 @@ class SIGEService extends FuseUtils.EventEmitter {
   requestResetPasswordMail = (user) => {
     return new Promise((resolve, reject) => {
       axios
-        .post(sigeServiceConfig.passwordReset, {
+        .post(sigeServiceConfig.uniqueEndpoint, {
           params: {
             endpoint: 'reset_link',
             args: {
@@ -195,7 +195,7 @@ class SIGEService extends FuseUtils.EventEmitter {
   };
 
   updateUserData = (user) => {
-    return axios.post(sigeServiceConfig.updateUser, {
+    return axios.post(sigeServiceConfig.uniqueEndpoint, {
       user,
     });
   };
