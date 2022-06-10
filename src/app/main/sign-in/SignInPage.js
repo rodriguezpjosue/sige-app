@@ -21,11 +21,8 @@ import sigeService from '../../auth/services/sigeService';
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  username: yup.string().required('You must enter an user'),
-  password: yup
-    .string()
-    .required('Please enter your password.')
-    .min(4, 'Password is too short - must be at least 4 chars.'),
+  username: yup.string().required('Ingrese su usuario'),
+  password: yup.string().required('Ingrese su contraseña.'),
 });
 
 const defaultValues = {
