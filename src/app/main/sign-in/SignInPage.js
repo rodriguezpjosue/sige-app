@@ -206,12 +206,11 @@ function SignInPage() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Welcome to</div>
-            <div>our community</div>
+            <div>Un líder,</div>
+            <div>un siervo</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
+            Sobrelleven los unos las cargas de los otros, y cumplan así la ley de Cristo.
           </div>
           <div className="flex items-center mt-32">
             <AvatarGroup
@@ -221,15 +220,13 @@ function SignInPage() {
                 },
               }}
             >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
+              <Avatar src="assets/images/avatars/personas1.jpg" />
+              <Avatar src="assets/images/avatars/personas2.jpg" />
+              <Avatar src="assets/images/avatars/personas3.jpg" />
+              <Avatar src="assets/images/avatars/personas4.jpg" />
             </AvatarGroup>
 
-            <div className="ml-16 font-medium tracking-tight text-gray-400">
-              More than 17k people joined us, it's your turn
-            </div>
+            <div className="ml-16 font-medium tracking-tight text-gray-400">Gálatas 6:2 (RVC)</div>
           </div>
         </div>
       </Box>
