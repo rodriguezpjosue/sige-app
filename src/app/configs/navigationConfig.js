@@ -11,6 +11,24 @@ i18next.addResourceBundle('es', 'navigation', es);
 
 const navigationConfig = [
   {
+    id: 'formacions-group',
+    title: 'Formación',
+    subtitle: 'Cursos completados, Aperturas.',
+    type: 'group',
+    icon: 'heroicons-outline:home',
+    translate: 'FORMACION',
+    children: [
+      {
+        id: 'aperturas-formacion',
+        title: 'Aperturas',
+        translate: 'APERTURAS',
+        type: 'item',
+        icon: 'heroicons-outline:document-text',
+        url: 'aperturas',
+      },
+    ],
+  },
+  {
     id: 'redes-group',
     title: 'Redes',
     subtitle: 'Informes de reunión, integrantes de la red.',

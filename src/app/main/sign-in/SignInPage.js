@@ -40,10 +40,10 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  useEffect(() => {
-    setValue('username', '', { shouldDirty: true, shouldValidate: true });
-    setValue('password', '', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
+  // useEffect(() => {
+  //  setValue('username', '', { shouldDirty: true, shouldValidate: true });
+  //  setValue('password', '', { shouldDirty: true, shouldValidate: true });
+  // }, [setValue]);
 
   function onSubmit({ username, password }) {
     sigeService

@@ -8,6 +8,7 @@ import SignOutConfig from '../main/sign-out/SignOutConfig';
 import Error404Config from '../main/404/Error404Config';
 import IntegrantesAppConfig from '../main/integrantes/IntegrantesAppConfig';
 import InformesAppConfig from '../main/informes/InformesAppConfig';
+import AperturasAppConfig from '../main/aperturas/AperturasAppConfig';
 import ForgotPasswordPageConfig from '../main/forgot-password/ForgotPasswordPageConfig';
 
 const routeConfigs = [
@@ -18,6 +19,7 @@ const routeConfigs = [
   InformesAppConfig,
   Error404Config,
   ForgotPasswordPageConfig,
+  AperturasAppConfig,
 ];
 
 const routes = [
@@ -35,6 +37,11 @@ const routes = [
   {
     path: 'informes',
     element: <Navigate to="/informes" />,
+    auth: settingsConfig.defaultAuth,
+  },
+  {
+    path: 'aperturas',
+    element: <Navigate to="/aperturas" />,
     auth: settingsConfig.defaultAuth,
   },
   {
