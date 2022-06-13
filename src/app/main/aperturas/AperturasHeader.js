@@ -63,16 +63,6 @@ function AperturasHeader(props) {
             onChange={(ev) => dispatch(setAperturasSearchText(ev))}
           />
         </Box>
-        <Button
-          className="mx-8"
-          variant="contained"
-          color="secondary"
-          component={NavLinkAdapter}
-          to="new/edit"
-        >
-          <FuseSvgIcon size={20}>heroicons-outline:plus</FuseSvgIcon>
-          <span className="mx-8">Crear</span>
-        </Button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import { styled } from '@mui/material/styles';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import AperturasSidebarContent from './AperturasSidebarContent';
-import ContactsHeader from './AperturasHeader';
+import AperturasHeader from './AperturasHeader';
 import AperturasTable from './AperturasTable';
 import reducer from './store';
 import { getTiposreunion } from './store/sesionesSlice';
@@ -39,7 +39,7 @@ function AperturasApp(props) {
 
   return (
     <Root
-      header={<ContactsHeader pageLayout={pageLayout} />}
+      header={<AperturasHeader pageLayout={pageLayout} />}
       content={<AperturasTable />}
       ref={pageLayout}
       rightSidebarContent={<AperturasSidebarContent />}

@@ -184,11 +184,13 @@ class SIGEService extends FuseUtils.EventEmitter {
     if (accessToken) {
       localStorage.setItem('session_id', accessToken);
       localStorage.setItem('red_id', userdata.red_liderada);
+      localStorage.setItem('partner_id', userdata.partner_id);
       localStorage.setItem('user_context', JSON.stringify(userdata.user_context));
       // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     } else {
       localStorage.removeItem('session_id');
       localStorage.removeItem('red_id');
+      localStorage.removeItem('partner_id');
       localStorage.removeItem('user_context');
       // delete axios.defaults.headers.common.Authorization;
     }

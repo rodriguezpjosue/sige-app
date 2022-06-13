@@ -19,9 +19,9 @@ export const getAperturas = createAsyncThunk(
           endpoint: 'search_read',
           args: {
             sid: window.localStorage.getItem('session_id'), // session_id
-            model: 'sige.informereunion',
-            filter: `[('red_id', '=', ${window.localStorage.getItem('red_id')})]`, // red_id
-            fields: "['fechareunion', 'tema', 'total_asistentes', 'state', 'tiporeunion_id']",
+            model: 'sige.apertura',
+            filter: `[('docente_id', '=', ${window.localStorage.getItem('partner_id')})]`, // red_id
+            fields: "['fecha_inicio', 'curso_id', 'matriculados', 'state', 'programa_id', 'modalidad']",
           },
         },
       },
@@ -60,13 +60,13 @@ export const selectGroupedFilteredAperturas = createSelector(
       aperturas
         // eslint-disable-next-line array-callback-return
         .sort((a, b) => {
-          if (a.fechareunion && b.fechareunion) {
-            a.fechareunion.localeCompare(b.fechareunion, 'es', { sensitivity: 'base' });
+          if (a.fecha_inicio && b.fecha_inicio) {
+            a.fecha_inicio.localeCompare(b.fecha_inicio, 'es', { sensitivity: 'base' });
           }
         })
         .reduce((r, e) => {
           // get first letter of name of current element
-          const group = e.fechareunion.slice(0, 4);
+          const group = e.fecha_inicio.slice(0, 4);
           // if there is no property in accumulator with this letter create it
           if (!r[group]) r[group] = { group, children: [e] };
           // if there is push current element to children array for that letter
@@ -82,7 +82,7 @@ const aperturasSlice = createSlice({
   name: 'aperturasApp/aperturas',
   initialState: aperturasAdapter.getInitialState({
     searchText: '',
-  }),
+  }), 
   reducers: {
     setAperturasSearchText: {
       reducer: (state, action) => {

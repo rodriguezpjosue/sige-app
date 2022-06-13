@@ -25,11 +25,9 @@ function AperturaListItem(props) {
 
   function getChipColor(aperturaState) {
     switch (aperturaState) {
-      case 'pendiente':
+      case 'closed':
         return 'warning';
-      case 'observado':
-        return 'error';
-      case 'aprobado':
+      case 'actas':
         return 'success';
       default:
         return 'default';
@@ -44,7 +42,7 @@ function AperturaListItem(props) {
         className="MuiButtonBase-root"
       >
         <TableCell>
-          {stringOperations.getLocaleDateTime(apertura.fechareunion).toLocaleString()}
+          {apertura.fecha_inicio}
           <Chip
             key={apertura.id}
             label={stringOperations.capitalizeFirst(apertura.state)}
@@ -52,6 +50,11 @@ function AperturaListItem(props) {
             size="small"
             color={getChipColor(apertura.state)}
           />
+        </TableCell>
+        <TableCell>
+          {apertura.curso_id[0].name}
+          {apertura.programa_id[0].name}
+          {apertura.modalidad}
         </TableCell>
         <TableCell>
           <Button
@@ -62,13 +65,6 @@ function AperturaListItem(props) {
           >
             <FuseSvgIcon size={20}>heroicons-outline:eye</FuseSvgIcon>
           </Button>
-        </TableCell>
-        <TableCell>
-          {apertura.state === 'draft' && (
-            <Button variant="contained" color="secondary" onClick={handleProcesoOficinaApertura}>
-              <FuseSvgIcon size={20}>heroicons-outline:arrow-sm-up</FuseSvgIcon>
-            </Button>
-          )}
         </TableCell>
       </TableRow>
     </>

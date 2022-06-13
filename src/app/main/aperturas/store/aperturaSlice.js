@@ -104,7 +104,10 @@ export const updateApertura = createAsyncThunk(
       apertura.observaciones = [[0, 0, { observaciones: apertura.observaciones }]];
     }
     if (apertura.fechareunions) {
-      apertura.fechareunion = apertura.fechareunion.toISOString().replace('T', ' ').replace('Z', '');
+      apertura.fechareunion = apertura.fechareunion
+        .toISOString()
+        .replace('T', ' ')
+        .replace('Z', '');
     }
     const response = await axios.post(
       sigeServiceConfig.uniqueEndpoint,

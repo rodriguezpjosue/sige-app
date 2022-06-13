@@ -1,14 +1,14 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import tiposreunion from './sesionesSlice';
-import informes from './aperturasSlice';
-import integrantes from './alumnosSlice';
-import informe from './aperturaSlice';
+import sesiones from './sesionesSlice';
+import aperturas from './aperturasSlice';
+import alumnos from './alumnosSlice';
+import apertura from './aperturaSlice';
 
 const reducer = combineReducers({
-  tiposreunion,
-  integrantes,
-  informes,
-  informe,
+  sesiones,
+  alumnos,
+  aperturas,
+  apertura,
 });
 
 export default reducer;

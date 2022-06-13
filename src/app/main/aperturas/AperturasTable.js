@@ -27,7 +27,7 @@ function AperturasTable(props) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
         <Typography color="text.secondary" variant="h5">
-          No has reportado aperturas aún.
+          No tienes cursos a cargo aún.
         </Typography>
       </div>
     );
@@ -55,11 +55,12 @@ function AperturasTable(props) {
                     <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table" key={key}>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Fecha de reunión</TableCell>
-                          <TableCell>Tema</TableCell>
-                          <TableCell>Tipo reunión</TableCell>
+                          <TableCell>Fecha de inicio</TableCell>
+                          <TableCell>Curso</TableCell>
+                          <TableCell>Programa</TableCell>
+                          <TableCell>Modalidad</TableCell>
+                          <TableCell>Alumnos matriculados</TableCell>
                           <TableCell>Situación</TableCell>
-                          <TableCell>&nbsp;</TableCell>
                           <TableCell>&nbsp;</TableCell>
                         </TableRow>
                       </TableHead>
@@ -76,8 +77,8 @@ function AperturasTable(props) {
                     <Table size="small" aria-label="a dense table" key={key}>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Fecha de reunión</TableCell>
-                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>Fecha de inicio</TableCell>
+                          <TableCell>Curso / Matriculados</TableCell>
                           <TableCell>&nbsp;</TableCell>
                         </TableRow>
                       </TableHead>

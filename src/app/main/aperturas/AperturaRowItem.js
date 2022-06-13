@@ -25,11 +25,9 @@ function AperturaListItem(props) {
 
   function getChipColor(aperturaState) {
     switch (aperturaState) {
-      case 'pendiente':
+      case 'closed':
         return 'warning';
-      case 'observado':
-        return 'error';
-      case 'aprobado':
+      case 'actas':
         return 'success';
       default:
         return 'default';
@@ -43,13 +41,11 @@ function AperturaListItem(props) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         className="MuiButtonBase-root"
       >
-        <TableCell>
-          {stringOperations.getLocaleDateTime(apertura.fechareunion).toLocaleString()}
-        </TableCell>
-        <TableCell>{stringOperations.capitalizeFirst(apertura.tema)}</TableCell>
-        <TableCell>
-          {apertura.tiporeunion_id.length > 0 ? apertura.tiporeunion_id[0].name : ``}
-        </TableCell>
+        <TableCell>{apertura.fecha_inicio}</TableCell>
+        <TableCell>{stringOperations.capitalizeFirst(apertura.curso_id[0].name)}</TableCell>
+        <TableCell>{apertura.programa_id.length > 0 ? apertura.programa_id[0].name : ``}</TableCell>
+        <TableCell>{apertura.modalidad ? apertura.modalidad : ``}</TableCell>
+        <TableCell>{apertura.matriculados ? apertura.matriculados : `0`}</TableCell>
         <TableCell>
           {apertura.state && (
             <Chip
@@ -71,14 +67,6 @@ function AperturaListItem(props) {
             <FuseSvgIcon size={20}>heroicons-outline:eye</FuseSvgIcon>
             <span className="mx-8">Ver</span>
           </Button>
-        </TableCell>
-        <TableCell>
-          {apertura.state === 'draft' && (
-            <Button variant="contained" color="secondary" onClick={handleProcesoOficinaApertura}>
-              <FuseSvgIcon size={20}>heroicons-outline:arrow-sm-up</FuseSvgIcon>
-              <span className="mx-8">Procesar</span>
-            </Button>
-          )}
         </TableCell>
       </TableRow>
     </>
