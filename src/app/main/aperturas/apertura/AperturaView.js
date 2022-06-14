@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Button from '@mui/material/Button';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -5,16 +6,19 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
+import Chip from '@mui/material/Chip';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getApertura, selectApertura } from '../store/aperturaSlice';
@@ -23,6 +27,27 @@ const AperturaView = () => {
   const apertura = useSelector(selectApertura);
   const routeParams = useParams();
   const dispatch = useDispatch();
+
+  const [value, setValue] = React.useState('1');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  function getChipColor(sesionState) {
+    switch (sesionState) {
+      case 'cerrado':
+        return 'error';
+      case 'abierto':
+        return 'success';
+      default:
+        return 'default';
+    }
+  }
+
+  const handleChipClick = () => {
+    console.info('You clicked the Chip.');
+  };
 
   useEffect(() => {
     dispatch(getApertura(routeParams.id));
@@ -58,42 +83,96 @@ const AperturaView = () => {
               )}
             </div>
 
-            {apertura.alumnos_ids.length > 0 && (
-              <div className="flex flex-col">
-                <div className="flex items-center">
-                  <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
-                  <div className="ml-24 leading-6">Alumnos:</div>
-                </div>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                  {apertura.alumnos_ids.map((alumno) => (
-                    <>
-                      <Divider variant="inset" component="li" />
-                      <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                          <Avatar alt={alumno.name} src="/static/images/avatar/3.jpg" />
-                        </ListItemAvatar>
-                        <ListItemText
-                          secondary="Oui Oui"
-                          primary={
-                            <>
-                              <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                              >
-                                {alumno.name}
-                              </Typography>
-                              {' — Do you have Paris recommendations? Have you ever…'}
-                            </>
-                          }
-                        />
-                      </ListItem>
-                    </>
-                  ))}
-                </List>
-              </div>
-            )}
+            <Box sx={{ width: '100%', typography: 'body1' }}>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <TabList onChange={handleChange} aria-label="lab API tabs example">
+                    <Tab label="Alumnos" value="1" />
+                    <Tab label="Sesiones" value="2" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  {apertura.alumnos_ids.length > 0 && (
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
+                        <div className="ml-24 leading-6">Alumnos:</div>
+                      </div>
+                      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        {apertura.alumnos_ids.map((alumno) => (
+                          <>
+                            <Divider variant="inset" component="li" />
+                            <ListItem alignItems="flex-start">
+                              <ListItemAvatar>
+                                <Avatar alt={alumno.name} src="/static/images/avatar/3.jpg" />
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary={
+                                  <>
+                                    <Typography
+                                      sx={{ display: 'inline' }}
+                                      component="span"
+                                      variant="body2"
+                                      color="text.primary"
+                                    >
+                                      {alumno.name}
+                                    </Typography>
+                                  </>
+                                }
+                              />
+                            </ListItem>
+                          </>
+                        ))}
+                      </List>
+                    </div>
+                  )}
+                </TabPanel>
+                <TabPanel value="2">
+                  {apertura.alumnos_ids.length > 0 && (
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        <FuseSvgIcon>heroicons-outline:book-open</FuseSvgIcon>
+                        <div className="ml-24 leading-6">Sesiones:</div>
+                      </div>
+                      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        {apertura.sesiones_ids.map((sesion) => (
+                          <>
+                            <Divider variant="inset" component="li" />
+                            <ListItem alignItems="flex-start">
+                              <ListItemAvatar>
+                                <Avatar alt={sesion.name} src="/static/images/avatar/3.jpg" />
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary={
+                                  <>
+                                    <Typography
+                                      sx={{ display: 'inline' }}
+                                      component="span"
+                                      variant="body2"
+                                      color="text.primary"
+                                    >
+                                      {sesion.name}
+                                    </Typography>
+                                    <Chip
+                                      key={sesion.id}
+                                      label={stringOperations.capitalizeFirst(sesion.state)}
+                                      className="mr-12 mb-12"
+                                      size="small"
+                                      color={getChipColor(sesion.state)}
+                                      onClick={handleChipClick}
+                                    />
+                                  </>
+                                }
+                              />
+                            </ListItem>
+                          </>
+                        ))}
+                      </List>
+                    </div>
+                  )}
+                </TabPanel>
+              </TabContext>
+            </Box>
           </div>
         </div>
       </div>

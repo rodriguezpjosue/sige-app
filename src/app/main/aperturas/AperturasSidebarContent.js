@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import { Outlet } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 
-function InformesSidebarContent(props) {
+function AperturasSidebarContent(props) {
   const dispatch = useDispatch();
 
   return (
@@ -13,7 +13,7 @@ function InformesSidebarContent(props) {
         className="absolute top-0 right-0 my-16 mx-32 z-10"
         sx={{ color: 'black' }}
         component={NavLinkAdapter}
-        to="/informes"
+        to="/aperturas"
         size="large"
       >
         <FuseSvgIcon>heroicons-outline:x</FuseSvgIcon>
@@ -24,4 +24,4 @@ function InformesSidebarContent(props) {
   );
 }
 
-export default InformesSidebarContent;
+export default AperturasSidebarContent;

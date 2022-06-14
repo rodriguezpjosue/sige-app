@@ -4,7 +4,7 @@ import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConf
 
 export const getSesiones = createAsyncThunk(
   'aperturasApp/sesiones/getSesiones',
-  async (aperturaId, { getState }) => {
+  async ({ getState }) => {
     const response = await axios.post(
       sigeServiceConfig.uniqueEndpoint,
       {
@@ -12,8 +12,8 @@ export const getSesiones = createAsyncThunk(
           endpoint: 'search_read',
           args: {
             sid: window.localStorage.getItem('session_id'),
-            model: 'sige.apertura',
-            filter: `[('apertura_id', '!=',  ${aperturaId})]`,
+            model: 'sige.apertura.sesiones',
+            filter: `[('id', '!=',  None)]`,
             fields: "['id', 'name']",
           },
         },
