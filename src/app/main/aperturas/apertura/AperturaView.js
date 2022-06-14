@@ -73,8 +73,8 @@ const AperturaView = () => {
                           <Avatar alt={alumno.name} src="/static/images/avatar/3.jpg" />
                         </ListItemAvatar>
                         <ListItemText
-                          primary="Oui Oui"
-                          secondary={
+                          secondary="Oui Oui"
+                          primary={
                             <>
                               <Typography
                                 sx={{ display: 'inline' }}
