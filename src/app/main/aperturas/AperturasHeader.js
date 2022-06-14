@@ -27,7 +27,7 @@ function AperturasHeader(props) {
           delay={300}
           className="text-24 md:text-32 font-extrabold tracking-tight leading-none"
         >
-          Aperturas de reunión RED
+          Aperturas
         </Typography>
         <Typography
           component={motion.span}
@@ -37,7 +37,7 @@ function AperturasHeader(props) {
           className="text-14 font-medium ml-2"
           color="text.secondary"
         >
-          {`${filteredData.length} informes`}
+          {`${filteredData.length} aperturas`}
         </Typography>
       </div>
       <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center mt-16 -mx-8">
@@ -52,7 +52,7 @@ function AperturasHeader(props) {
           </FuseSvgIcon>
 
           <Input
-            placeholder="Buscar informes"
+            placeholder="Buscar aperturas"
             className="flex flex-1 px-16"
             disableUnderline
             fullWidth

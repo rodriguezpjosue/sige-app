@@ -17,10 +17,9 @@ export const getApertura = createAsyncThunk(
             endpoint: 'search_read',
             args: {
               sid: window.localStorage.getItem('session_id'), // session_id
-              model: 'sige.informereunion',
+              model: 'sige.apertura',
               filter: `[('id', '=',  ${id})]`, // red_id
-              fields:
-                "['fechareunion', 'tema', 'total_asistentes', 'asistentes_ids', 'state', 'tiporeunion_id']",
+              fields: "['curso_id', 'alumnos_ids', 'sesiones_ids', 'state']",
             },
           },
         },
@@ -30,22 +29,9 @@ export const getApertura = createAsyncThunk(
       );
 
       const data = await response.data;
-      const informe = data.result.data[0];
-      const asistentesIds = informe.asistentes_ids;
-      informe.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
-      informe.tiporeunion_id = informe.tiporeunion_id[0].id;
-      const fechareunion = new Date(informe.fechareunion);
-      informe.fechareunion = new Date(
-        Date.UTC(
-          fechareunion.getFullYear(),
-          fechareunion.getMonth(),
-          fechareunion.getDate(),
-          fechareunion.getHours(),
-          fechareunion.getMinutes(),
-          fechareunion.getSeconds()
-        )
-      );
-      return informe;
+      const apertura = data.result.data[0];
+      console.log(apertura);
+      return apertura;
     } catch (error) {
       history.push({ pathname: `/aperturas` });
       return null;

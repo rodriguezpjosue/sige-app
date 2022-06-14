@@ -2,9 +2,9 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import axios from 'axios';
 import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConfig';
 
-export const getTiposreunion = createAsyncThunk(
-  'aperturasApp/tiposreunion/getTiposreunion',
-  async (params, { getState }) => {
+export const getSesiones = createAsyncThunk(
+  'aperturasApp/sesiones/getSesiones',
+  async (aperturaId, { getState }) => {
     const response = await axios.post(
       sigeServiceConfig.uniqueEndpoint,
       {
@@ -12,8 +12,8 @@ export const getTiposreunion = createAsyncThunk(
           endpoint: 'search_read',
           args: {
             sid: window.localStorage.getItem('session_id'),
-            model: 'sige.informereunion.tipo',
-            filter: `[('id', '!=',  None)]`,
+            model: 'sige.apertura',
+            filter: `[('apertura_id', '!=',  ${aperturaId})]`,
             fields: "['id', 'name']",
           },
         },
@@ -29,18 +29,18 @@ export const getTiposreunion = createAsyncThunk(
   }
 );
 
-const tiposreunionAdapter = createEntityAdapter({});
+const sesionesAdapter = createEntityAdapter({});
 
-export const { selectAll: selectTiposreunion, selectById: selectTagsById } =
-  tiposreunionAdapter.getSelectors((state) => state.aperturasApp.tiposreunion);
+export const { selectAll: selectSesiones, selectById: selectTagsById } =
+  sesionesAdapter.getSelectors((state) => state.aperturasApp.sesiones);
 
-const tiposreunionSlice = createSlice({
-  name: 'aperturasApp/tiposreunion',
-  initialState: tiposreunionAdapter.getInitialState([]),
+const sesionesSlice = createSlice({
+  name: 'aperturasApp/sesiones',
+  initialState: sesionesAdapter.getInitialState([]),
   reducers: {},
   extraReducers: {
-    [getTiposreunion.fulfilled]: tiposreunionAdapter.setAll,
+    [getSesiones.fulfilled]: sesionesAdapter.setAll,
   },
 });
 
-export default tiposreunionSlice.reducer;
+export default sesionesSlice.reducer;

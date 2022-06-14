@@ -10,7 +10,7 @@ import AperturasSidebarContent from './AperturasSidebarContent';
 import AperturasHeader from './AperturasHeader';
 import AperturasTable from './AperturasTable';
 import reducer from './store';
-import { getTiposreunion } from './store/sesionesSlice';
+import { getSesiones } from './store/sesionesSlice';
 import { getIntegrantes } from './store/alumnosSlice';
 import { getAperturas } from './store/aperturasSlice';
 
@@ -30,7 +30,7 @@ function AperturasApp(props) {
   useDeepCompareEffect(() => {
     dispatch(getAperturas());
     dispatch(getIntegrantes());
-    dispatch(getTiposreunion());
+    dispatch(getSesiones());
   }, [dispatch]);
 
   useEffect(() => {

@@ -24,7 +24,7 @@ import {
   updateApertura,
 } from '../store/aperturaSlice';
 import { selectIntegrantes } from '../store/alumnosSlice';
-import { selectTiposreunion } from '../store/sesionesSlice';
+import { selectSesiones } from '../store/sesionesSlice';
 import { getAperturas } from '../store/aperturasSlice';
 
 /**
@@ -37,7 +37,7 @@ const schema = yup.object().shape({
 const AperturaForm = (props) => {
   const apertura = useSelector(selectApertura);
   const integrantes = useSelector(selectIntegrantes);
-  const tiposreunion = useSelector(selectTiposreunion);
+  const tiposreunion = useSelector(selectSesiones);
   const routeParams = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();

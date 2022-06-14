@@ -7,44 +7,26 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getApertura, selectApertura } from '../store/aperturaSlice';
-import { selectIntegrantes } from '../store/alumnosSlice';
-import { selectTiposreunion } from '../store/sesionesSlice';
 
 const AperturaView = () => {
   const apertura = useSelector(selectApertura);
-  const integrantes = useSelector(selectIntegrantes);
-  const tiposreunion = useSelector(selectTiposreunion);
   const routeParams = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getApertura(routeParams.id));
   }, [dispatch, routeParams]);
-
-  function getIntegranteById(id) {
-    return integrantes.find((integrante) => integrante.id === id);
-  }
-
-  function getTiporeunionById(id) {
-    const tr = tiposreunion.find((tiporeunion) => tiporeunion.id === id);
-    if (typeof tr === 'object' && tr !== null) {
-      return tr.name;
-    }
-    return ``;
-  }
-
-  function getCheckedIntegranteById(id) {
-    if (apertura.asistentes_ids.find((asistente) => asistente === id)) {
-      return true;
-    }
-    return false;
-  }
 
   if (!apertura) {
     return <FuseLoading />;
@@ -53,30 +35,13 @@ const AperturaView = () => {
     <>
       <div className="relative flex flex-col flex-auto items-center p-24 pt-0 sm:p-48 sm:pt-0">
         <div className="w-full max-w-3xl" style={{ paddingTop: '3.0em' }}>
-          {apertura.state === 'draft' && (
-            <div className="flex flex-auto items-end">
-              <div className="flex items-center ml-auto mb-4">
-                <Button variant="contained" color="secondary" component={NavLinkAdapter} to="edit">
-                  <FuseSvgIcon size={20}>heroicons-outline:pencil-alt</FuseSvgIcon>
-                  <span className="mx-8">Editar</span>
-                </Button>
-              </div>
-            </div>
-          )}
-
-          <Typography className="mt-12 text-2xl font-bold" style={{ wordWrap: 'break-word' }}>
-            {apertura.fechareunion.toLocaleString()}
-          </Typography>
-
-          <Divider className="mt-16 mb-24" />
-
           <div className="flex flex-col space-y-32">
             <div className="flex flex-row">
-              {apertura.tema && (
+              {apertura.curso_id.length > 0 && (
                 <div className="flex items-center">
                   <FuseSvgIcon>heroicons-outline:annotation</FuseSvgIcon>
                   <div className="ml-24 leading-6">
-                    {stringOperations.capitalizeWords(apertura.tema)}
+                    {stringOperations.capitalizeWords(apertura.curso_id[0].name)}
                   </div>
                 </div>
               )}
@@ -93,39 +58,40 @@ const AperturaView = () => {
               )}
             </div>
 
-            <div className="flex flex-row">
-              {apertura.tiporeunion_id && (
-                <div className="flex items-center">
-                  <FuseSvgIcon>heroicons-outline:tag</FuseSvgIcon>
-                  <div className="ml-24 leading-6">
-                    {getTiporeunionById(apertura.tiporeunion_id)}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {integrantes.length > 0 && (
+            {apertura.alumnos_ids.length > 0 && (
               <div className="flex flex-col">
                 <div className="flex items-center">
                   <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
-                  <div className="ml-24 leading-6">Asistieron:</div>
+                  <div className="ml-24 leading-6">Alumnos:</div>
                 </div>
-                {integrantes.map((integrante) => (
-                  <FormControlLabel
-                    className="flex flex-row"
-                    style={{ marginLeft: '20px' }}
-                    key={integrante.id}
-                    control={
-                      <Checkbox
-                        value={integrante.id}
-                        key={integrante.id}
-                        checked={getCheckedIntegranteById(integrante.id)}
-                        disabled
-                      />
-                    }
-                    label={stringOperations.capitalizeWords(integrante.name)}
-                  />
-                ))}
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                  {apertura.alumnos_ids.map((alumno) => (
+                    <>
+                      <Divider variant="inset" component="li" />
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar alt={alumno.name} src="/static/images/avatar/3.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary="Oui Oui"
+                          secondary={
+                            <>
+                              <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                              >
+                                {alumno.name}
+                              </Typography>
+                              {' — Do you have Paris recommendations? Have you ever…'}
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    </>
+                  ))}
+                </List>
               </div>
             )}
           </div>
