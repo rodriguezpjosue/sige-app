@@ -100,15 +100,20 @@ const SesionView = () => {
                               </Typography>
                             </>
                           }
-                        />
-                        <Chip
-                          key={alumnoAsistencia.id}
-                          label={stringOperations.capitalizeFirst(
-                            alumnoAsistencia.seleccion_asistencia
-                          )}
-                          className="mr-12 mb-12"
-                          size="small"
-                          color={getChipColor(alumnoAsistencia.seleccion_asistencia)}
+                          secondary={
+                            <>
+                              {`Asistencia: `}
+                              <Chip
+                                key={alumnoAsistencia.id}
+                                label={stringOperations.capitalizeFirst(
+                                  alumnoAsistencia.seleccion_asistencia
+                                )}
+                                className="mr-12 mb-12"
+                                size="small"
+                                color={getChipColor(alumnoAsistencia.seleccion_asistencia)}
+                              />
+                            </>
+                          }
                         />
                       </ListItem>
                     </>
