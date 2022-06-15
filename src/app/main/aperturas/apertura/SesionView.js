@@ -12,20 +12,16 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Chip from '@mui/material/Chip';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getSesion, selectSesion } from '../store/sesionSlice';
-import { getAsistenciasBySesion, selectAsistencias } from '../store/asistenciaSlice';
+import { getAsistencias, selectAsistencias } from '../store/asistenciasSlice';
 
 const SesionView = () => {
   const sesion = useSelector(selectSesion);
+  const asistencias = useSelector(selectAsistencias);
   const routeParams = useParams();
   const dispatch = useDispatch();
 
@@ -44,10 +40,10 @@ const SesionView = () => {
 
   useEffect(() => {
     dispatch(getSesion(routeParams.id));
-    dispatch(getAsistenciasBySesion(routeParams.id));
+    dispatch(getAsistencias(routeParams.id));
   }, [dispatch, routeParams]);
 
-  if (!sesion) {
+  if (!sesion || !asistencias) {
     return <FuseLoading />;
   }
   return (
@@ -77,22 +73,21 @@ const SesionView = () => {
               )}
             </div>
 
-            {sesion.alumno_asistencia.length > 0 && (
+            {asistencias.length > 0 && (
               <div className="flex flex-col">
                 <div className="flex items-center">
                   <FuseSvgIcon>heroicons-outline:user-group</FuseSvgIcon>
                   <div className="ml-24 leading-6">Asistencia:</div>
                 </div>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                  {sesion.alumno_asistencia.map((alumnoAsistencia) => (
+                  {asistencias.map((alumnoAsistencia) => (
                     <>
                       <Divider variant="inset" component="li" />
-                      <ListItem alignItems="flex-start">
+                      <ListItem key={alumnoAsistencia.id} alignItems="flex-start">
                         <ListItemAvatar>
                           <Avatar alt={alumnoAsistencia.name} src="/static/images/avatar/3.jpg" />
                         </ListItemAvatar>
                         <ListItemText
-                          secondary={alumnoAsistencia.seleccion_asistencia}
                           primary={
                             <>
                               <Typography
@@ -108,12 +103,13 @@ const SesionView = () => {
                         />
                         <Chip
                           key={alumnoAsistencia.id}
-                          label={stringOperations.capitalizeFirst(alumnoAsistencia.seleccion_asistencia)}
+                          label={stringOperations.capitalizeFirst(
+                            alumnoAsistencia.seleccion_asistencia
+                          )}
                           className="mr-12 mb-12"
                           size="small"
                           color={getChipColor(alumnoAsistencia.seleccion_asistencia)}
                         />
-                        {alumnoAsistencia.seleccion_asistencia}
                       </ListItem>
                     </>
                   ))}

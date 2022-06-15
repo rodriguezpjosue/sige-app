@@ -4,6 +4,7 @@ import sesion from './sesionSlice';
 import aperturas from './aperturasSlice';
 import alumnos from './alumnosSlice';
 import apertura from './aperturaSlice';
+import asistencias from './asistenciasSlice';
 
 const reducer = combineReducers({
   sesiones,
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   alumnos,
   aperturas,
   apertura,
+  asistencias,
 });
 
 export default reducer;

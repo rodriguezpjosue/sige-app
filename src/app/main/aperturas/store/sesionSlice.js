@@ -4,7 +4,6 @@ import history from '@history';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import StringOperations from '../../../shared-components/stringOperations';
 import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';
-import { getAsistencias } from './asistenciaSlice';
 
 export const getSesion = createAsyncThunk(
   'aperturasApp/task/getSesion',
@@ -28,16 +27,8 @@ export const getSesion = createAsyncThunk(
           withCredentials: true,
         }
       );
-
       const data = await response.data;
       const sesion = data.result.data[0];
-      if (sesion.alumno_asistencia.length > 0) {
-        const asistenciaAlumnosIds = sesion.alumno_asistencia.map((asistencia) => asistencia.id);
-        dispatch(getAsistencias(asistenciaAlumnosIds)).then((res) => {
-          sesion.alumno_asistencia = res.payload;
-          return sesion;
-        });
-      }
       return sesion;
     } catch (error) {
       history.push({ pathname: `/aperturas/sesiones/${id}` });

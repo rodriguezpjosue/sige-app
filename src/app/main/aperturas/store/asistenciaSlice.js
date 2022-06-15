@@ -123,7 +123,7 @@ const asistenciaSlice = createSlice({
   name: 'aperturasApp/asistencia',
   initialState: null,
   reducers: {
-    resetSesion: () => null,
+    resetAsistencia: () => null,
   },
   extraReducers: {
     [getAsistencia.pending]: (state, action) => null,
