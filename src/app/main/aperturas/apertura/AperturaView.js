@@ -45,10 +45,6 @@ const AperturaView = () => {
     }
   }
 
-  const handleChipClick = () => {
-    console.info('You clicked the Chip.');
-  };
-
   useEffect(() => {
     dispatch(getApertura(routeParams.id));
   }, [dispatch, routeParams]);
@@ -128,7 +124,7 @@ const AperturaView = () => {
                   )}
                 </TabPanel>
                 <TabPanel value="2">
-                  {apertura.alumnos_ids.length > 0 && (
+                  {apertura.sesiones_ids.length > 0 && (
                     <div className="flex flex-col">
                       <div className="flex items-center">
                         <FuseSvgIcon>heroicons-outline:book-open</FuseSvgIcon>
@@ -153,16 +149,17 @@ const AperturaView = () => {
                                     >
                                       {sesion.name}
                                     </Typography>
-                                    <Chip
-                                      key={sesion.id}
-                                      label={stringOperations.capitalizeFirst(sesion.state)}
-                                      className="mr-12 mb-12"
-                                      size="small"
-                                      color={getChipColor(sesion.state)}
-                                      onClick={handleChipClick}
-                                    />
                                   </>
                                 }
+                              />
+                              <Chip
+                                key={sesion.id}
+                                label={stringOperations.capitalizeFirst(sesion.state)}
+                                className="mr-12 mb-12"
+                                size="small"
+                                color={getChipColor(sesion.state)}
+                                component={NavLinkAdapter}
+                                to={`/aperturas/sesiones/${sesion.id}`}
                               />
                             </ListItem>
                           </>

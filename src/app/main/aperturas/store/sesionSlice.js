@@ -4,6 +4,7 @@ import history from '@history';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import StringOperations from '../../../shared-components/stringOperations';
 import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';
+import { getAsistencias } from './asistenciaSlice';
 
 export const getSesion = createAsyncThunk(
   'aperturasApp/task/getSesion',
@@ -18,7 +19,8 @@ export const getSesion = createAsyncThunk(
               sid: window.localStorage.getItem('session_id'), // session_id
               model: 'sige.apertura.sesiones',
               filter: `[('id', '=',  ${id})]`, // red_id
-              fields: "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+              fields:
+                "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
             },
           },
         },
@@ -28,10 +30,17 @@ export const getSesion = createAsyncThunk(
       );
 
       const data = await response.data;
-      const apertura = data.result.data[0];
-      return apertura;
+      const sesion = data.result.data[0];
+      if (sesion.alumno_asistencia.length > 0) {
+        const asistenciaAlumnosIds = sesion.alumno_asistencia.map((asistencia) => asistencia.id);
+        dispatch(getAsistencias(asistenciaAlumnosIds)).then((res) => {
+          sesion.alumno_asistencia = res.payload;
+          return sesion;
+        });
+      }
+      return sesion;
     } catch (error) {
-      history.push({ pathname: `/aperturas` });
+      history.push({ pathname: `/aperturas/sesiones/${id}` });
       return null;
     }
   }
@@ -62,8 +71,7 @@ export const getSesiones = createAsyncThunk(
       );
 
       const data = await response.data;
-      const sesiones = data.result.data[0];
-      console.log(sesiones);
+      const sesiones = data.result.data;
       return sesiones;
     } catch (error) {
       history.push({ pathname: `/aperturas` });
@@ -89,7 +97,8 @@ export const updateSesion = createAsyncThunk(
             model: 'sige.apertura.sesiones',
             id: sesion.id,
             vals: sesion,
-            fields: "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+            fields:
+              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
           },
         },
       },
@@ -132,7 +141,8 @@ export const cerrarSesion = createAsyncThunk(
             model: 'sige.apertura.sesiones',
             id: sesionId,
             method: 'boton_pendiente',
-            fields: "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+            fields:
+              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
           },
         },
       },
@@ -164,7 +174,7 @@ export const cerrarSesion = createAsyncThunk(
 export const selectSesion = ({ aperturasApp }) => aperturasApp.sesion;
 
 const sesionSlice = createSlice({
-  name: 'aperturasApp/apertura',
+  name: 'aperturasApp/sesion',
   initialState: null,
   reducers: {
     resetSesion: () => null,

@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import AperturaView from './apertura/AperturaView';
+import SesionView from './apertura/SesionView';
 import AperturaForm from './apertura/AperturaForm';
 
 const AperturasApp = lazy(() => import('./AperturasApp'));
@@ -22,6 +23,10 @@ const AperturasAppConfig = {
         {
           path: ':id/edit',
           element: <AperturaForm />,
+        },
+        {
+          path: 'sesiones/:id',
+          element: <SesionView />,
         },
       ],
     },

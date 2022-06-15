@@ -31,12 +31,10 @@ export const getApertura = createAsyncThunk(
 
       const data = await response.data;
       const apertura = data.result.data[0];
-      console.log(apertura);
       if (apertura.sesiones_ids.length > 0) {
         const sesiones = apertura.sesiones_ids.map((sesion) => sesion.id);
         dispatch(getSesiones(sesiones)).then((res) => {
-          console.log(res);
-          apertura.sesion = res.payload;
+          apertura.sesiones_ids = res.payload;
           return apertura;
         });
       }

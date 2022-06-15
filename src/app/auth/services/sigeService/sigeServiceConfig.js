@@ -9,7 +9,7 @@ const sigeServiceConfig = {
   updateInforme: 'rest',
   deleteInforme: 'rest',
   uniqueEndpoint: 'rest',
-  db: 'sige',
+  db: 'sige8',
 };
 
 export default sigeServiceConfig;
