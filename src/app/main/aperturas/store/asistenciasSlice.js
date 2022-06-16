@@ -30,7 +30,7 @@ export const getAsistencias = createAsyncThunk(
       return asistencias;
     } catch (error) {
       history.push({ pathname: `/aperturas` });
-      return null;
+      return [];
     }
   }
 );
@@ -39,12 +39,12 @@ export const selectAsistencias = ({ aperturasApp }) => aperturasApp.asistencias;
 
 const asistenciasSlice = createSlice({
   name: 'aperturasApp/asistencias',
-  initialState: null,
+  initialState: [],
   reducers: {
-    resetAsistencias: () => null,
+    resetAsistencias: () => [],
   },
   extraReducers: {
-    [getAsistencias.pending]: (state, action) => null,
+    [getAsistencias.pending]: (state, action) => state.asistencias,
     [getAsistencias.fulfilled]: (state, action) => action.payload,
   },
 });

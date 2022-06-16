@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseLoading from '@fuse/core/FuseLoading';
@@ -13,10 +11,10 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import Chip from '@mui/material/Chip';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getSesion, selectSesion } from '../store/sesionSlice';
 import { getAsistencias, selectAsistencias } from '../store/asistenciasSlice';
@@ -33,7 +31,7 @@ const SesionView = () => {
     dispatch(getSesion(routeParams.id)).then((res) => {
       dispatch(getAsistencias(routeParams.id));
     });
-  }, [routeParams]);
+  }, [dispatch, routeParams]);
 
   const handleAsistenciaValue = (event, newAsistenciaValue) => {
     if (newAsistenciaValue) {
@@ -43,12 +41,10 @@ const SesionView = () => {
   };
 
   useEffect(() => {
-    if (asistencia) {
-      dispatch(updateAsistencia(asistencia));
-    }
-  }, [asistencia]);
+    dispatch(updateAsistencia(asistencia));
+  }, [dispatch, asistencia]);
 
-  if (!sesion || !asistencias) {
+  if (!sesion) {
     return <FuseLoading />;
   }
   return (
@@ -62,6 +58,17 @@ const SesionView = () => {
                   <FuseSvgIcon>heroicons-outline:annotation</FuseSvgIcon>
                   <div className="ml-24 leading-6">
                     {stringOperations.capitalizeWords(sesion.name)}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-row">
+              {sesion.fecha && (
+                <div className="flex items-center">
+                  <FuseSvgIcon>heroicons-outline:calendar</FuseSvgIcon>
+                  <div className="ml-24 leading-6">
+                    {format(parseISO(sesion.fecha), 'dd/MM/yyyy')}
                   </div>
                 </div>
               )}

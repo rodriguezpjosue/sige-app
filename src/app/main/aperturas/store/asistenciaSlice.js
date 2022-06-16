@@ -33,7 +33,7 @@ export const getAsistencia = createAsyncThunk(
       return apertura;
     } catch (error) {
       history.push({ pathname: `/aperturas` });
-      return null;
+      return {};
     }
   }
 );
@@ -67,7 +67,7 @@ export const updateAsistencia = createAsyncThunk(
         return data;
       });
     } else {
-      return null;
+      return {};
     }
   }
 );
@@ -76,12 +76,12 @@ export const selectAsistencia = ({ aperturasApp }) => aperturasApp.asistencia;
 
 const asistenciaSlice = createSlice({
   name: 'aperturasApp/asistencia',
-  initialState: null,
+  initialState: {},
   reducers: {
-    resetAsistencia: () => null,
+    resetAsistencia: () => {},
   },
   extraReducers: {
-    [getAsistencia.pending]: (state, action) => null,
+    [getAsistencia.pending]: (state, action) => {},
     [getAsistencia.fulfilled]: (state, action) => action.payload,
     [updateAsistencia.fulfilled]: (state, action) => action.payload,
   },

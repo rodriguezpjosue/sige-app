@@ -6,6 +6,9 @@ a.MuiChip-root {
     color: unset !important;
     text-decoration: unset !important;
 }
-a.MuiChip-colorError {
+a.MuiChip-colorError,  a.MuiChip-colorSuccess {
     color: white !important;
+}
+.ml-12 {
+    margin-left: 1.2rem;
 }

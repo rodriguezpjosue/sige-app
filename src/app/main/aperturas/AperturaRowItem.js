@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Chip from '@mui/material/Chip';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { procesoOficinaApertura } from './store/aperturaSlice';
@@ -21,6 +23,19 @@ function AperturaListItem(props) {
         navigate(`/aperturas/${apertura.id}`);
       });
     });
+  }
+
+  function changeStateText(state) {
+    switch (state) {
+      case 'closed':
+        return 'Cerrado';
+      case 'actas':
+        return 'Actas';
+      case 'open':
+        return 'Abierto';
+      default:
+        return 'Cerrado';
+    }
   }
 
   function getChipColor(aperturaState) {
@@ -41,7 +56,7 @@ function AperturaListItem(props) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         className="MuiButtonBase-root"
       >
-        <TableCell>{apertura.fecha_inicio}</TableCell>
+        <TableCell>{format(parseISO(apertura.fecha_inicio), 'dd/MM/yyyy')}</TableCell>
         <TableCell>{stringOperations.capitalizeFirst(apertura.curso_id[0].name)}</TableCell>
         <TableCell>{apertura.programa_id.length > 0 ? apertura.programa_id[0].name : ``}</TableCell>
         <TableCell>{apertura.modalidad ? apertura.modalidad : ``}</TableCell>
@@ -50,8 +65,8 @@ function AperturaListItem(props) {
           {apertura.state && (
             <Chip
               key={apertura.id}
-              label={stringOperations.capitalizeFirst(apertura.state)}
-              className="mr-12 mb-12"
+              label={stringOperations.capitalizeFirst(changeStateText(apertura.state))}
+              className="mr-12 mb-12 ml-12"
               size="small"
               color={getChipColor(apertura.state)}
             />

@@ -45,6 +45,19 @@ const AperturaView = () => {
     }
   }
 
+  function changeStateText(state) {
+    switch (state) {
+      case 'closed':
+        return 'Cerrado';
+      case 'actas':
+        return 'Actas';
+      case 'open':
+        return 'Abierto';
+      default:
+        return 'Cerrado';
+    }
+  }
+
   useEffect(() => {
     dispatch(getApertura(routeParams.id));
   }, [dispatch, routeParams]);
@@ -73,7 +86,7 @@ const AperturaView = () => {
                 <div className="flex items-center">
                   <FuseSvgIcon>heroicons-outline:exclamation-circle</FuseSvgIcon>
                   <div className="ml-24 leading-6">
-                    {stringOperations.capitalizeWords(apertura.state)}
+                    {stringOperations.capitalizeWords(changeStateText(apertura.state))}
                   </div>
                 </div>
               )}
@@ -155,7 +168,7 @@ const AperturaView = () => {
                               <Chip
                                 key={sesion.id}
                                 label={stringOperations.capitalizeFirst(sesion.state)}
-                                className="mr-12 mb-12"
+                                className="mr-12 mb-12 ml-12"
                                 size="small"
                                 icon={
                                   <>
