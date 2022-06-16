@@ -4,6 +4,7 @@ import history from '@history';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import StringOperations from '../../../shared-components/stringOperations';
 import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';
+import { getAsistencias } from './asistenciasSlice';
 
 export const getAsistencia = createAsyncThunk(
   'aperturasApp/task/getAsistencia',
@@ -18,7 +19,7 @@ export const getAsistencia = createAsyncThunk(
               sid: window.localStorage.getItem('session_id'), // session_id
               model: 'sige.alumno_asistencia_sesion',
               filter: `[('id', '=',  ${id})]`, // red_id
-              fields: "['id', 'name', 'seleccion_asistencia']",
+              fields: "['id', 'name', 'seleccion_asistencia', 'session_id']",
             },
           },
         },
@@ -37,46 +38,9 @@ export const getAsistencia = createAsyncThunk(
   }
 );
 
-export const getAsistencias = createAsyncThunk(
-  'aperturasApp/task/getAsistencias',
-  async (ids, { dispatch, getState }) => {
-    const filtro = [['id', 'in', ids]];
-    try {
-      const response = await axios.post(
-        sigeServiceConfig.uniqueEndpoint,
-        {
-          params: {
-            endpoint: 'search_read',
-            args: {
-              sid: window.localStorage.getItem('session_id'),
-              model: 'sige.alumno_asistencia_sesion',
-              filter: JSON.stringify(filtro),
-              fields: "['id', 'name', 'seleccion_asistencia']",
-            },
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      const data = await response.data;
-      const asistencias = data.result.data;
-      return asistencias;
-    } catch (error) {
-      history.push({ pathname: `/aperturas` });
-      return null;
-    }
-  }
-);
-
 export const updateAsistencia = createAsyncThunk(
-  'aperturasApp/aperturas/updateSesion',
-  async (sesion, { dispatch, getState }) => {
-    sesion.alumno_asistencia = [[6, 0, sesion.alumno_asistencia]];
-    if (sesion.fecha) {
-      sesion.fecha = sesion.fecha.toISOString().replace('T', ' ').replace('Z', '');
-    }
+  'aperturasApp/aperturas/updateAsistencia',
+  async (asistencia, { dispatch, getState }) => {
     const response = await axios.post(
       sigeServiceConfig.uniqueEndpoint,
       {
@@ -84,10 +48,10 @@ export const updateAsistencia = createAsyncThunk(
           endpoint: 'write',
           args: {
             sid: window.localStorage.getItem('session_id'), // session_id
-            model: 'sige.apertura.sesiones',
-            id: sesion.id,
-            vals: sesion,
-            fields: "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+            model: 'sige.alumno_asistencia_sesion',
+            id: asistencia.id,
+            vals: asistencia,
+            fields: "['id', 'name', 'seleccion_asistencia', 'session_id']",
           },
         },
       },
@@ -96,24 +60,15 @@ export const updateAsistencia = createAsyncThunk(
       }
     );
 
-    const informeData = await response.data;
-    const { status, data } = informeData.result;
-    let mensaje = ``;
-    let variante = ``;
+    const asistenciaData = await response.data;
+    const { status, data } = asistenciaData.result;
     if (status === 200) {
-      mensaje = 'Informe actualizado satisfactoriamente.';
-      variante = 'success';
+      dispatch(getAsistencias(data.session_id[0].id)).then((res) => {
+        return data;
+      });
     } else {
-      mensaje = 'Hubo un error al actualizar el informe.';
-      variante = 'error';
+      return null;
     }
-    const asistentesIds = data.asistentes_ids;
-    data.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
-    const fechareunion = StringOperations.getLocaleDateTime(data.fechareunion);
-    data.fechareunion = StringOperations.setDateTimeString(fechareunion);
-    data.tiporeunion_id = data.tiporeunion_id[0].id;
-    dispatch(showMessage({ message: mensaje, variant: variante }));
-    return data;
   }
 );
 
@@ -128,8 +83,6 @@ const asistenciaSlice = createSlice({
   extraReducers: {
     [getAsistencia.pending]: (state, action) => null,
     [getAsistencia.fulfilled]: (state, action) => action.payload,
-    [getAsistencias.pending]: (state, action) => null,
-    [getAsistencias.fulfilled]: (state, action) => action.payload,
     [updateAsistencia.fulfilled]: (state, action) => action.payload,
   },
 });

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import history from '@history';
 import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';

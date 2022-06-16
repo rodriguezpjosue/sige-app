@@ -157,6 +157,11 @@ const AperturaView = () => {
                                 label={stringOperations.capitalizeFirst(sesion.state)}
                                 className="mr-12 mb-12"
                                 size="small"
+                                icon={
+                                  <>
+                                    <FuseSvgIcon>heroicons-outline:eye</FuseSvgIcon>
+                                  </>
+                                }
                                 color={getChipColor(sesion.state)}
                                 component={NavLinkAdapter}
                                 to={`/aperturas/sesiones/${sesion.id}`}

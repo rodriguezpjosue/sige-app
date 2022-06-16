@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Typography from '@mui/material/Typography';
@@ -14,34 +14,39 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Chip from '@mui/material/Chip';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getSesion, selectSesion } from '../store/sesionSlice';
 import { getAsistencias, selectAsistencias } from '../store/asistenciasSlice';
+import { selectAsistencia, updateAsistencia } from '../store/asistenciaSlice';
 
 const SesionView = () => {
   const sesion = useSelector(selectSesion);
   const asistencias = useSelector(selectAsistencias);
+  const [asistencia, setAsistencia] = useState(useSelector(selectAsistencia));
   const routeParams = useParams();
   const dispatch = useDispatch();
 
-  function getChipColor(sesionState) {
-    switch (sesionState) {
-      case 'F':
-        return 'error';
-      case 'A':
-        return 'success';
-      case 'T':
-        return 'warning';
-      default:
-        return 'default';
+  useEffect(() => {
+    dispatch(getSesion(routeParams.id)).then((res) => {
+      dispatch(getAsistencias(routeParams.id));
+    });
+  }, [routeParams]);
+
+  const handleAsistenciaValue = (event, newAsistenciaValue) => {
+    if (newAsistenciaValue) {
+      const aV = newAsistenciaValue.split('-');
+      setAsistencia({ id: parseInt(aV[1], 10), seleccion_asistencia: aV[0] });
     }
-  }
+  };
 
   useEffect(() => {
-    dispatch(getSesion(routeParams.id));
-    dispatch(getAsistencias(routeParams.id));
-  }, [dispatch, routeParams]);
+    if (asistencia) {
+      dispatch(updateAsistencia(asistencia));
+    }
+  }, [asistencia]);
 
   if (!sesion || !asistencias) {
     return <FuseLoading />;
@@ -103,15 +108,39 @@ const SesionView = () => {
                           secondary={
                             <>
                               {`Asistencia: `}
-                              <Chip
-                                key={alumnoAsistencia.id}
-                                label={stringOperations.capitalizeFirst(
+                              <ToggleButtonGroup
+                                value={
                                   alumnoAsistencia.seleccion_asistencia
-                                )}
-                                className="mr-12 mb-12"
-                                size="small"
-                                color={getChipColor(alumnoAsistencia.seleccion_asistencia)}
-                              />
+                                    ? `${alumnoAsistencia.seleccion_asistencia}-${alumnoAsistencia.id}`
+                                    : `F-${alumnoAsistencia.id}`
+                                }
+                                exclusive
+                                onChange={handleAsistenciaValue}
+                                aria-label="Cambiar asistencia"
+                                disabled={sesion.state === 'cerrado'}
+                              >
+                                <ToggleButton
+                                  value={`F-${alumnoAsistencia.id}`}
+                                  color="error"
+                                  aria-label="Inasistencia"
+                                >
+                                  F
+                                </ToggleButton>
+                                <ToggleButton
+                                  value={`T-${alumnoAsistencia.id}`}
+                                  color="warning"
+                                  aria-label="Tardanza"
+                                >
+                                  T
+                                </ToggleButton>
+                                <ToggleButton
+                                  value={`A-${alumnoAsistencia.id}`}
+                                  color="success"
+                                  aria-label="Asistencia"
+                                >
+                                  A
+                                </ToggleButton>
+                              </ToggleButtonGroup>
                             </>
                           }
                         />

@@ -71,54 +71,6 @@ export const getSesiones = createAsyncThunk(
   }
 );
 
-export const updateSesion = createAsyncThunk(
-  'aperturasApp/aperturas/updateSesion',
-  async (sesion, { dispatch, getState }) => {
-    sesion.alumno_asistencia = [[6, 0, sesion.alumno_asistencia]];
-    if (sesion.fecha) {
-      sesion.fecha = sesion.fecha.toISOString().replace('T', ' ').replace('Z', '');
-    }
-    const response = await axios.post(
-      sigeServiceConfig.uniqueEndpoint,
-      {
-        params: {
-          endpoint: 'write',
-          args: {
-            sid: window.localStorage.getItem('session_id'), // session_id
-            model: 'sige.apertura.sesiones',
-            id: sesion.id,
-            vals: sesion,
-            fields:
-              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
-          },
-        },
-      },
-      {
-        withCredentials: true,
-      }
-    );
-
-    const informeData = await response.data;
-    const { status, data } = informeData.result;
-    let mensaje = ``;
-    let variante = ``;
-    if (status === 200) {
-      mensaje = 'Informe actualizado satisfactoriamente.';
-      variante = 'success';
-    } else {
-      mensaje = 'Hubo un error al actualizar el informe.';
-      variante = 'error';
-    }
-    const asistentesIds = data.asistentes_ids;
-    data.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
-    const fechareunion = StringOperations.getLocaleDateTime(data.fechareunion);
-    data.fechareunion = StringOperations.setDateTimeString(fechareunion);
-    data.tiporeunion_id = data.tiporeunion_id[0].id;
-    dispatch(showMessage({ message: mensaje, variant: variante }));
-    return data;
-  }
-);
-
 export const cerrarSesion = createAsyncThunk(
   'aperturasApp/aperturas/cerrarSesion',
   async (sesionId, { dispatch, getState }) => {
@@ -173,7 +125,7 @@ const sesionSlice = createSlice({
   extraReducers: {
     [getSesion.pending]: (state, action) => null,
     [getSesion.fulfilled]: (state, action) => action.payload,
-    [updateSesion.fulfilled]: (state, action) => action.payload,
+    [cerrarSesion.fulfilled]: (state, action) => action.payload,
   },
 });
 
