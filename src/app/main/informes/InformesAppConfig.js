@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import InformeView from './informe/InformeView';
 import InformeForm from './informe/InformeForm';
+import { authRoles } from '../../auth';
 
 const InformesApp = lazy(() => import('./InformesApp'));
 
@@ -10,6 +11,7 @@ const InformesAppConfig = {
       config: {},
     },
   },
+  auth: authRoles.lider,
   routes: [
     {
       path: 'informes',

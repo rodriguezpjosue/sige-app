@@ -3,6 +3,7 @@ import ar from './navigation-i18n/ar';
 import en from './navigation-i18n/en';
 import tr from './navigation-i18n/tr';
 import es from './navigation-i18n/es';
+import { authRoles } from '../auth';
 
 i18next.addResourceBundle('en', 'navigation', en);
 i18next.addResourceBundle('tr', 'navigation', tr);
@@ -15,6 +16,7 @@ const navigationConfig = [
     title: 'Formación',
     subtitle: 'Cursos completados, Aperturas.',
     type: 'group',
+    auth: authRoles.tutor,
     icon: 'heroicons-outline:home',
     translate: 'FORMACION',
     children: [
@@ -33,6 +35,7 @@ const navigationConfig = [
     title: 'Redes',
     subtitle: 'Informes de reunión, integrantes de la red.',
     type: 'group',
+    auth: authRoles.lider,
     icon: 'heroicons-outline:home',
     translate: 'REDES',
     children: [

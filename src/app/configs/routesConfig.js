@@ -10,6 +10,7 @@ import IntegrantesAppConfig from '../main/integrantes/IntegrantesAppConfig';
 import InformesAppConfig from '../main/informes/InformesAppConfig';
 import AperturasAppConfig from '../main/aperturas/AperturasAppConfig';
 import ForgotPasswordPageConfig from '../main/forgot-password/ForgotPasswordPageConfig';
+import BienvenidoAppConfig from '../main/bienvenido/BienvenidoAppConfig';
 
 const routeConfigs = [
   SignOutConfig,
@@ -20,13 +21,14 @@ const routeConfigs = [
   Error404Config,
   ForgotPasswordPageConfig,
   AperturasAppConfig,
+  BienvenidoAppConfig,
 ];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
   {
     path: '/',
-    element: <Navigate to="/informes" />,
+    element: <Navigate to="/bienvenido" />,
     auth: settingsConfig.defaultAuth,
   },
   {

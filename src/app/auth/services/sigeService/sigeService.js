@@ -28,32 +28,19 @@ class SIGEService extends FuseUtils.EventEmitter {
 
   handleAuthentication = () => {
     const accessToken = this.getAccessToken();
-    if (accessToken) {
-      this.setSession(null);
-    }
-    this.emit('onNoAccessToken');
-  };
 
-  /*
-  handleAuthentication = () => {
-    const accessToken = this.getAccessToken();
-    const redLiderada = window.localStorage.getItem('red_liderada');
-
-    if (!accessToken || !redLiderada) {
+    if (!accessToken) {
       this.emit('onNoAccessToken');
-
       return;
     }
 
     if (this.isAuthTokenValid(accessToken)) {
-      // this.setSession(accessToken);
       this.emit('onAutoLogin', true);
     } else {
       this.setSession(null);
       this.emit('onAutoLogout', 'access_token expired');
     }
   };
-  */
 
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
@@ -74,17 +61,21 @@ class SIGEService extends FuseUtils.EventEmitter {
         )
         .then((response) => {
           response = response.data.result;
-          if (response.data.user) {
-            this.setSession(response.data.access_token, response.data.user.data);
-            resolve(response.data.user);
+          if (response.status === 200) {
+            if (response.data.user) {
+              this.setSession(response.data.access_token, response.data.user.data);
+              resolve(response.data.user);
+              this.emit('onLogin', response.data.user);
+            } else {
+              // reject(response.data.error);
+              this.logout();
+              reject(new Error('Failed to login with token.'));
+            }
           } else {
+            // eslint-disable-next-line prefer-promise-reject-errors
             this.logout();
             reject(new Error('Failed to login with token.'));
           }
-        })
-        .catch((error) => {
-          this.logout();
-          reject(new Error('Failed to login with token.'));
         });
     });
   };

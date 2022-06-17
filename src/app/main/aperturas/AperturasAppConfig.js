@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import AperturaView from './apertura/AperturaView';
 import SesionView from './apertura/SesionView';
 import AperturaForm from './apertura/AperturaForm';
+import { authRoles } from '../../auth';
 
 const AperturasApp = lazy(() => import('./AperturasApp'));
 
@@ -11,6 +12,7 @@ const AperturasAppConfig = {
       config: {},
     },
   },
+  auth: authRoles.tutor,
   routes: [
     {
       path: 'aperturas',

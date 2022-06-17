@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import IntegranteView from './integrante/IntegranteView';
 import IntegranteForm from './integrante/IntegranteForm';
+import { authRoles } from '../../auth';
 
 const IntegrantesApp = lazy(() => import('./IntegrantesApp'));
 
@@ -10,6 +11,7 @@ const IntegrantesAppConfig = {
       config: {},
     },
   },
+  auth: authRoles.lider,
   routes: [
     {
       path: 'integrantes',
