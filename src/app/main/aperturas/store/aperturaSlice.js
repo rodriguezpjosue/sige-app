@@ -5,7 +5,6 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import AperturaModel from '../model/aperturaModel';
 import StringOperations from '../../../shared-components/stringOperations';
 import sigeServiceConfig from '../../../auth/services/sigeService/sigeServiceConfig';
-import { getSesiones } from './sesionSlice';
 
 export const getApertura = createAsyncThunk(
   'aperturasApp/task/getApertura',
@@ -31,13 +30,6 @@ export const getApertura = createAsyncThunk(
 
       const data = await response.data;
       const apertura = data.result.data[0];
-      if (apertura.sesiones_ids.length > 0) {
-        const sesiones = apertura.sesiones_ids.map((sesion) => sesion.id);
-        dispatch(getSesiones(sesiones)).then((res) => {
-          apertura.sesiones_ids = res.payload;
-          return apertura;
-        });
-      }
       return apertura;
     } catch (error) {
       history.push({ pathname: `/aperturas` });

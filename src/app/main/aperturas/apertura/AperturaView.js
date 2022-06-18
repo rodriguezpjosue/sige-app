@@ -22,9 +22,11 @@ import Chip from '@mui/material/Chip';
 import format from 'date-fns/format';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getApertura, selectApertura } from '../store/aperturaSlice';
+import { getSesiones, selectSesiones } from '../store/sesionesSlice';
 
 const AperturaView = () => {
   const apertura = useSelector(selectApertura);
+  const sesiones = useSelector(selectSesiones);
   const routeParams = useParams();
   const dispatch = useDispatch();
 
@@ -59,7 +61,9 @@ const AperturaView = () => {
   }
 
   useEffect(() => {
-    dispatch(getApertura(routeParams.id));
+    dispatch(getApertura(routeParams.id)).then((res) => {
+      dispatch(getSesiones(routeParams.id));
+    });;
   }, [dispatch, routeParams]);
 
   if (!apertura) {
@@ -137,14 +141,14 @@ const AperturaView = () => {
                   )}
                 </TabPanel>
                 <TabPanel value="2">
-                  {apertura.sesiones_ids.length > 0 && (
+                  {sesiones.length > 0 && (
                     <div className="flex flex-col">
                       <div className="flex items-center">
                         <FuseSvgIcon>heroicons-outline:book-open</FuseSvgIcon>
                         <div className="ml-24 leading-6">Sesiones:</div>
                       </div>
                       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        {apertura.sesiones_ids.map((sesion) => (
+                        {sesiones.map((sesion) => (
                           <>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start">

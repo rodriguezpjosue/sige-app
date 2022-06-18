@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import DemoContent from '@fuse/core/DemoContent';
+import HomeContent from 'src/emmanuel/HomeContent';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -28,9 +28,7 @@ function BienvenidoPage(props) {
       }
       content={
         <div className="p-24">
-          <h4>Content</h4>
-          <br />
-          <DemoContent />
+          <HomeContent />
         </div>
       }
       scroll="content"

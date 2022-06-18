@@ -20,7 +20,9 @@ export const getAperturas = createAsyncThunk(
           args: {
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'sige.apertura',
-            filter: `[('docente_id', '=', ${window.localStorage.getItem('partner_id')})]`, // red_id
+            filter: `['|',('docente_id', '=', ${window.localStorage.getItem(
+              'partner_id'
+            )}),('tutores_ids', 'in', [${window.localStorage.getItem('partner_id')}])]`, // red_id
             fields: "['fecha_inicio', 'curso_id', 'matriculados', 'state', 'programa_id', 'modalidad']",
           },
         },
