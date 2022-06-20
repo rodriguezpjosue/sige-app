@@ -14,7 +14,8 @@ export const getSesiones = createAsyncThunk(
             sid: window.localStorage.getItem('session_id'),
             model: 'sige.apertura.sesiones',
             filter: `[('apertura_id', '=',  ${aperturaId})]`,
-            fields: "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+            fields:
+              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
           },
         },
       },

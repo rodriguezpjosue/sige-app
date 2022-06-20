@@ -83,9 +83,9 @@ export const cerrarSesion = createAsyncThunk(
             sid: window.localStorage.getItem('session_id'), // session_id
             model: 'sige.apertura.sesiones',
             id: sesionId,
-            method: 'boton_pendiente',
+            method: 'boton_cerrar_sesion_apertura',
             fields:
-              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia', 'apertura_id']",
           },
         },
       },
@@ -97,20 +97,18 @@ export const cerrarSesion = createAsyncThunk(
     const data = await response.data;
     let mensaje = ``;
     let variante = ``;
+    const sesion = data.result.data[0];
     if (data.result.status === 200) {
-      mensaje = 'El informe ha sido enviado para su proceso en la Oficina de Redes.';
+      mensaje = 'La sesión ha sido cerrada. No será posible modificar la asistencia.';
       variante = 'success';
     } else {
-      mensaje = 'Hubo un error al procesar el informe.';
+      mensaje = 'Hubo un error al procesar el cierre de sesión.';
       variante = 'error';
     }
     dispatch(showMessage({ message: mensaje, variant: variante }));
-    const informeEdited = data.result.data;
-    const asistentesIds = informeEdited.asistentes_ids;
-    informeEdited.asistentes_ids = asistentesIds.map((asistente) => asistente.id);
-    const fechareunion = StringOperations.getLocaleDateTime(informeEdited.fechareunion);
-    informeEdited.fechareunion = StringOperations.setDateTimeString(fechareunion);
-    return informeEdited;
+    // history.push({ pathname: `/aperturas/${sesion.apertura_id}` });
+    history.push({ pathname: `/aperturas` });
+    return sesion;
   }
 );
 
@@ -125,6 +123,7 @@ const sesionSlice = createSlice({
   extraReducers: {
     [getSesion.pending]: (state, action) => null,
     [getSesion.fulfilled]: (state, action) => action.payload,
+    [cerrarSesion.pending]: (state, action) => null,
     [cerrarSesion.fulfilled]: (state, action) => action.payload,
   },
 });

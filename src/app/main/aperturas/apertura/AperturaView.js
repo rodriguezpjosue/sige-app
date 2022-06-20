@@ -20,9 +20,11 @@ import TabPanel from '@mui/lab/TabPanel';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Chip from '@mui/material/Chip';
 import format from 'date-fns/format';
+import { showMessage } from 'app/store/fuse/messageSlice';
 import stringOperations from '../../../shared-components/stringOperations';
 import { getApertura, selectApertura } from '../store/aperturaSlice';
 import { getSesiones, selectSesiones } from '../store/sesionesSlice';
+import { cerrarSesion } from '../store/sesionSlice';
 
 const AperturaView = () => {
   const apertura = useSelector(selectApertura);
@@ -34,6 +36,12 @@ const AperturaView = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const cerrarAsistencia = (sesionId) => {
+    dispatch(cerrarSesion(sesionId)).then((res) => {
+      console.log(res);
+    });
   };
 
   function getChipColor(sesionState) {
@@ -63,7 +71,7 @@ const AperturaView = () => {
   useEffect(() => {
     dispatch(getApertura(routeParams.id)).then((res) => {
       dispatch(getSesiones(routeParams.id));
-    });;
+    });
   }, [dispatch, routeParams]);
 
   if (!apertura) {
@@ -179,10 +187,29 @@ const AperturaView = () => {
                                     <FuseSvgIcon>heroicons-outline:eye</FuseSvgIcon>
                                   </>
                                 }
+                                clickable
                                 color={getChipColor(sesion.state)}
                                 component={NavLinkAdapter}
                                 to={`/aperturas/sesiones/${sesion.id}`}
                               />
+                              {sesion.state === 'abierto' && (
+                                <>
+                                  <Chip
+                                    key={sesion.id * 10}
+                                    label="Cerrar asistencia"
+                                    className="mr-12 mb-12 ml-12"
+                                    size="small"
+                                    icon={
+                                      <>
+                                        <FuseSvgIcon>heroicons-outline:x</FuseSvgIcon>
+                                      </>
+                                    }
+                                    color="info"
+                                    clickable
+                                    onClick={() => cerrarAsistencia(sesion.id)}
+                                  />
+                                </>
+                              )}
                             </ListItem>
                           </>
                         ))}
