@@ -69,9 +69,11 @@ const AperturaView = () => {
   }
 
   useEffect(() => {
-    dispatch(getApertura(routeParams.id)).then((res) => {
-      dispatch(getSesiones(routeParams.id));
-    });
+    if (routeParams.id) {
+      dispatch(getApertura(routeParams.id)).then((res) => {
+        dispatch(getSesiones(routeParams.id));
+      });
+    }
   }, [dispatch, routeParams]);
 
   if (!apertura) {
@@ -196,7 +198,7 @@ const AperturaView = () => {
                                 <>
                                   <Chip
                                     key={sesion.id * 10}
-                                    label="Cerrar asistencia"
+                                    label="Cerrar"
                                     className="mr-12 mb-12 ml-12"
                                     size="small"
                                     icon={

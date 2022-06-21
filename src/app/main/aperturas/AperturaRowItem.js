@@ -18,11 +18,13 @@ function AperturaListItem(props) {
   const navigate = useNavigate();
 
   function handleProcesoOficinaApertura() {
-    dispatch(procesoOficinaApertura(apertura.id)).then(() => {
-      dispatch(getAperturas()).then(() => {
-        navigate(`/aperturas/${apertura.id}`);
+    if (apertura.id) {
+      dispatch(procesoOficinaApertura(apertura.id)).then(() => {
+        dispatch(getAperturas()).then(() => {
+          navigate(`/aperturas/${apertura.id}`);
+        });
       });
-    });
+    }
   }
 
   function changeStateText(state) {
@@ -77,6 +79,7 @@ function AperturaListItem(props) {
             variant="contained"
             color="secondary"
             component={NavLinkAdapter}
+            size="small"
             to={`/aperturas/${apertura.id}`}
           >
             <FuseSvgIcon size={20}>heroicons-outline:eye</FuseSvgIcon>

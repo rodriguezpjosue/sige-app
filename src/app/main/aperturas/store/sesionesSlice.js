@@ -5,28 +5,31 @@ import sigeServiceConfig from 'src/app/auth/services/sigeService/sigeServiceConf
 export const getSesiones = createAsyncThunk(
   'aperturasApp/sesiones/getSesiones',
   async (aperturaId, { getState }) => {
-    const response = await axios.post(
-      sigeServiceConfig.uniqueEndpoint,
-      {
-        params: {
-          endpoint: 'search_read',
-          args: {
-            sid: window.localStorage.getItem('session_id'),
-            model: 'sige.apertura.sesiones',
-            filter: `[('apertura_id', '=',  ${aperturaId})]`,
-            fields:
-              "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+    if (aperturaId) {
+      const response = await axios.post(
+        sigeServiceConfig.uniqueEndpoint,
+        {
+          params: {
+            endpoint: 'search_read',
+            args: {
+              sid: window.localStorage.getItem('session_id'),
+              model: 'sige.apertura.sesiones',
+              filter: `[('apertura_id', '=',  ${aperturaId})]`,
+              fields:
+                "['id', 'name', 'tema_programacion', 'state', 'fecha', 'sesion_recuperacion', 'alumno_asistencia']",
+            },
           },
         },
-      },
-      {
-        withCredentials: true,
-      }
-    );
+        {
+          withCredentials: true,
+        }
+      );
 
-    const data = await response.data;
+      const data = await response.data;
 
-    return data.result.data;
+      return data.result.data;
+    }
+    return [];
   }
 );
 

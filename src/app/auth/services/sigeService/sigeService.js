@@ -69,12 +69,12 @@ class SIGEService extends FuseUtils.EventEmitter {
             } else {
               // reject(response.data.error);
               this.logout();
-              reject(new Error('Failed to login with token.'));
+              reject(new Error('Sesión expirada.'));
             }
           } else {
             // eslint-disable-next-line prefer-promise-reject-errors
             this.logout();
-            reject(new Error('Failed to login with token.'));
+            reject(new Error('Sesión expirada.'));
           }
         });
     });

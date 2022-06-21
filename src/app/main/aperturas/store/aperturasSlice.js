@@ -23,7 +23,8 @@ export const getAperturas = createAsyncThunk(
             filter: `['|',('docente_id', '=', ${window.localStorage.getItem(
               'partner_id'
             )}),('tutores_ids', 'in', [${window.localStorage.getItem('partner_id')}])]`, // red_id
-            fields: "['fecha_inicio', 'curso_id', 'matriculados', 'state', 'programa_id', 'modalidad']",
+            fields:
+              "['fecha_inicio', 'curso_id', 'matriculados', 'state', 'programa_id', 'modalidad']",
           },
         },
       },

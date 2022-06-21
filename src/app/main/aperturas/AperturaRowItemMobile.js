@@ -63,6 +63,7 @@ function AperturaListItem(props) {
             variant="contained"
             color="secondary"
             component={NavLinkAdapter}
+            size="small"
             to={`/aperturas/${apertura.id}`}
           >
             <FuseSvgIcon size={20}>heroicons-outline:eye</FuseSvgIcon>
