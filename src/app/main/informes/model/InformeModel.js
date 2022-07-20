@@ -3,8 +3,8 @@ import _ from '@lodash';
 const InformeModel = (data) =>
   _.defaults(data || {}, {
     state: 'draft',
-    tema: 'TcD',
-    tiporeunion_id: 1,
+    tema: '',
+    tiporeunion_id: null,
     fechareunion: new Date(),
     asistentes_ids: [],
     observaciones: '',

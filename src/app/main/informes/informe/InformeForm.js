@@ -189,8 +189,8 @@ const InformeForm = (props) => {
                   <TextField
                     {...params}
                     required
-                    label="Tipo de reunión"
-                    placeholder="Tipo de reunión"
+                    label="Forma de reunión"
+                    placeholder="Forma de reunión"
                   />
                 )}
               />
@@ -239,7 +239,7 @@ const InformeForm = (props) => {
               className="mt-32"
               {...field}
               label="Observaciones"
-              placeholder="Observaciones"
+              placeholder="Escribir aquí algún tema importante que desee comunicar a la dirección pastoral."
               id="observaciones"
               error={!!errors.observaciones}
               helperText={errors?.observaciones?.message}
